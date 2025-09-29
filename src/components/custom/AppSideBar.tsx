@@ -25,6 +25,11 @@ const menuItems = [
     icon: Home,
   },
   {
+    title: "Roles",
+    url: "roles",
+    icon: Zap,
+  },
+  {
     title: "Mesas",
     url: "mesas",
     icon: PiPicnicTableBold,
@@ -39,11 +44,7 @@ const menuItems = [
     url: "ordenes",
     icon: CheckSquare,
   },
-  {
-    title: "Integrations",
-    url: "/integrations",
-    icon: Zap,
-  },
+
   {
     title: "Settings",
     url: "/settings",

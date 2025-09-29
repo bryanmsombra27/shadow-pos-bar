@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import AdminLayout from "./layout/AdminLayout";
 import Home from "./pages/admin/home/Home";
 import Mesas from "./pages/admin/mesas/Mesas";
+import Roles from "./pages/admin/roles/Roles";
 
 export const appRouter = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "mesas",
         element: <Mesas />,
+      },
+      {
+        path: "roles",
+        element: <Roles />,
       },
     ],
   },
