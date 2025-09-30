@@ -1,6 +1,7 @@
 import { shadowPosApi } from "@/api/api";
 import type {
   RespuestaUsuario,
+  Usuario,
   UsuarioResponse,
 } from "@/interfaces/usuario.interface";
 
@@ -43,4 +44,18 @@ const eliminarUsuarios = async (id: string): Promise<RespuestaUsuario> => {
   return data;
 };
 
-export { obtenerUsuarios, crearUsuario, actualizarUsuario, eliminarUsuarios };
+const obtenerMeseros = async (): Promise<{ meseros: Usuario[] }> => {
+  const { data } = await shadowPosApi.get<{ meseros: Usuario[] }>(
+    "/usuario/meseros"
+  );
+
+  return data;
+};
+
+export {
+  obtenerUsuarios,
+  crearUsuario,
+  actualizarUsuario,
+  eliminarUsuarios,
+  obtenerMeseros,
+};

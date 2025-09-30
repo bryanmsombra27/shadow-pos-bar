@@ -3,10 +3,16 @@ import type {
   ActualizarMesa,
   RespuestaMesa,
   MesaResponse,
+  TodasLasMesas,
 } from "@/interfaces/mesa.interface";
 
 const obtenerMesasAction = async (): Promise<MesaResponse> => {
   const { data } = await shadowPosApi.get<MesaResponse>("/mesas");
+
+  return data;
+};
+const obtenerTodasLasMesasAction = async (): Promise<TodasLasMesas> => {
+  const { data } = await shadowPosApi.get<TodasLasMesas>("/mesas/all");
 
   return data;
 };
@@ -48,4 +54,5 @@ export {
   crearMesaAction,
   actualizarMesaAction,
   eliminarMesaAction,
+  obtenerTodasLasMesasAction,
 };

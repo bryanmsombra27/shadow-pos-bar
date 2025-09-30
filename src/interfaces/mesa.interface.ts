@@ -5,6 +5,9 @@ export interface MesaResponse {
   total_registros: number;
   mesas: Mesa[];
 }
+export interface TodasLasMesas {
+  mesas: Mesa[];
+}
 
 export interface RespuestaMesa {
   mensaje: string;

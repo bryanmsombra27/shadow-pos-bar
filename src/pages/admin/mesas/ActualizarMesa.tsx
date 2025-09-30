@@ -5,7 +5,7 @@ import useActualizarMesa from "@/hooks/mesas/useActualizarMesa";
 import useRoles from "@/hooks/roles/useRoles";
 import type { ActualizarMesa, Mesa } from "@/interfaces/mesa.interface";
 import { type FC } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useMeseros from "@/hooks/usuarios/useMeseros";
 
 interface Inputs extends ActualizarMesa {}
 
@@ -21,10 +22,11 @@ interface ActualizarMesaProps {
 }
 const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
   //   console.log(mesa, "mesa");
-  const { data } = useRoles();
+  const { data } = useMeseros();
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
@@ -64,21 +66,30 @@ const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
         </div>
 
         <div>
-          <Select {...register("mesero_id", { required: true })}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Seleeciona un mesero" />
-            </SelectTrigger>
-            <SelectContent>
-              {data?.roles.map((rol) => (
-                <SelectItem
-                  value={rol.id}
-                  key={rol.id}
-                >
-                  {rol.nombre}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Controller
+            name="mesero_id"
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={field.onChange}
+                value={field.value!}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Seleeciona un mesero" />
+                </SelectTrigger>
+                <SelectContent>
+                  {data?.meseros.map((mesero) => (
+                    <SelectItem
+                      value={mesero.id}
+                      key={mesero.id}
+                    >
+                      {mesero.nombre_completo}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
 
           {errors.mesero_id && (
             <ErrorMessage message=" El campo es requerido" />

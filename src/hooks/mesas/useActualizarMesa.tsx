@@ -12,12 +12,11 @@ const useActualizarMesa = (id: string) => {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ mesa }: BodyMutationVariables) =>
       actualizarMesaAction(id, mesa),
-    mutationKey: ["actualizar-mesa", id],
     onSuccess: async (value) => {
       toast.success(value.mensaje);
 
-      await queryClient.setQueryData(["Mesas"], (oldData: MesaResponse) =>
-        value.mesa
+      await queryClient.setQueryData(["Mesas"], (oldData: MesaResponse) => {
+        return value.mesa
           ? {
               ...oldData,
               mesas: oldData.mesas.map((item) => {
@@ -27,8 +26,8 @@ const useActualizarMesa = (id: string) => {
                 return item;
               }),
             }
-          : oldData
-      );
+          : oldData;
+      });
     },
     onError: () => {
       toast.error("No fue posible actualizar la mesa");
