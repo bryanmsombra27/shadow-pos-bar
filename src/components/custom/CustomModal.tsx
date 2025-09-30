@@ -16,6 +16,7 @@ interface CustomModalProps {
   isManualTrigger?: boolean;
   trigger?: ReactNode | null;
   description: string;
+  className?: string;
 }
 const CustomModal: FC<CustomModalProps> = ({
   children,
@@ -24,6 +25,7 @@ const CustomModal: FC<CustomModalProps> = ({
   isManualTrigger = false,
   trigger = null,
   description,
+  className,
 }) => {
   return (
     <Dialog>
@@ -40,7 +42,7 @@ const CustomModal: FC<CustomModalProps> = ({
         </div>
       )}
 
-      <DialogContent aria-description="lorem">
+      <DialogContent className={className}>
         <DialogTitle className="text-2xl">{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
         {children}

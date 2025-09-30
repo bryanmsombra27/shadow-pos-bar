@@ -1,5 +1,9 @@
 import { shadowPosApi } from "@/api/api";
-import type { RespuestaRole, RolResponse } from "@/interfaces/rol.interface";
+import type {
+  RespuestaRole,
+  Role,
+  RolResponse,
+} from "@/interfaces/rol.interface";
 
 const obtenerRolesPaginados = async (): Promise<RolResponse> => {
   const { data } = await shadowPosApi.get<RolResponse>("/rol");
@@ -31,4 +35,16 @@ const eliminarRol = async (id: string): Promise<RespuestaRole> => {
   return data;
 };
 
-export { obtenerRolesPaginados, crearRol, actualizarRol, eliminarRol };
+const obtenerRolesSinPaginacion = async (): Promise<{ roles: Role[] }> => {
+  const { data } = await shadowPosApi.get<{ roles: Role[] }>("/rol/all");
+
+  return data;
+};
+
+export {
+  obtenerRolesPaginados,
+  crearRol,
+  actualizarRol,
+  eliminarRol,
+  obtenerRolesSinPaginacion,
+};

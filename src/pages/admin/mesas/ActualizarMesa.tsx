@@ -2,9 +2,17 @@ import { ErrorMessage } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useActualizarMesa from "@/hooks/mesas/useActualizarMesa";
+import useRoles from "@/hooks/roles/useRoles";
 import type { ActualizarMesa, Mesa } from "@/interfaces/mesa.interface";
 import { type FC } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Inputs extends ActualizarMesa {}
 
@@ -13,6 +21,7 @@ interface ActualizarMesaProps {
 }
 const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
   //   console.log(mesa, "mesa");
+  const { data } = useRoles();
 
   const {
     register,
@@ -52,6 +61,28 @@ const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
             className={errors.nombre ? "border-2 border-red-400" : ""}
           />
           {errors.nombre && <ErrorMessage message=" El campo es requerido" />}
+        </div>
+
+        <div>
+          <Select {...register("mesero_id", { required: true })}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Seleeciona un mesero" />
+            </SelectTrigger>
+            <SelectContent>
+              {data?.roles.map((rol) => (
+                <SelectItem
+                  value={rol.id}
+                  key={rol.id}
+                >
+                  {rol.nombre}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {errors.mesero_id && (
+            <ErrorMessage message=" El campo es requerido" />
+          )}
         </div>
 
         <Button

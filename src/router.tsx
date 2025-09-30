@@ -3,6 +3,7 @@ import AdminLayout from "./layout/AdminLayout";
 import Home from "./pages/admin/home/Home";
 import Mesas from "./pages/admin/mesas/Mesas";
 import Roles from "./pages/admin/roles/Roles";
+import Usuarios from "./pages/admin/usuarios/Usuarios";
 
 export const appRouter = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "roles",
         element: <Roles />,
+      },
+      {
+        path: "trabajadores",
+        element: <Usuarios />,
       },
     ],
   },
