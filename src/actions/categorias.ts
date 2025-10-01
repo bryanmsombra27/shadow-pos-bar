@@ -2,10 +2,16 @@ import { shadowPosApi } from "@/api/api";
 import type {
   CategoriaResponse,
   RespuestaCategoria,
+  TodasLasCategorias,
 } from "@/interfaces/categoria.interface";
 
 const obtenerCategorias = async (): Promise<CategoriaResponse> => {
   const { data } = await shadowPosApi.get<CategoriaResponse>("/categoria");
+
+  return data;
+};
+const obtenerTodasLasCategorias = async (): Promise<TodasLasCategorias> => {
+  const { data } = await shadowPosApi.get<TodasLasCategorias>("/categoria/all");
 
   return data;
 };
@@ -43,4 +49,5 @@ export {
   crearCategoria,
   actualizarCategoria,
   eliminarCategoria,
+  obtenerTodasLasCategorias,
 };

@@ -1,8 +1,9 @@
+import { obtenerProductos } from "@/actions/productos";
 import { useQuery } from "@tanstack/react-query";
 
 const useObtenerProductos = () => {
   const { data, error, isPending } = useQuery({
-    queryFn: () => {},
+    queryFn: obtenerProductos,
     queryKey: ["productos"],
   });
 

@@ -15,3 +15,7 @@ export interface RespuestaCategoria {
   mensaje: string;
   categoria: Categoria;
 }
+
+export interface TodasLasCategorias {
+  categorias: Categoria[];
+}
