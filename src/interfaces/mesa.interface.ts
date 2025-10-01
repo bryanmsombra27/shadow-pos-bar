@@ -28,6 +28,8 @@ export type ActualizarMesa = Pick<
   "es_vip" | "estado_actual" | "mesero_id" | "nombre"
 >;
 
+export type ActualizarEstadoMesa = Pick<Mesa, "estado_actual" | "mesero_id">;
+
 interface Mesero {
   id: string;
   rol_id: string;

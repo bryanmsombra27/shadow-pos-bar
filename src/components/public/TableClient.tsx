@@ -2,11 +2,14 @@ import type { Mesa } from "@/interfaces/mesa.interface";
 import type { FC } from "react";
 import { PiPicnicTableBold } from "react-icons/pi";
 import { Button } from "../ui/button";
+import useActualizarEstadoMesa from "@/hooks/mesas/useActualizarEstadoMesa";
 
 interface TableClientProps {
   mesa: Mesa;
 }
 const TableClient: FC<TableClientProps> = ({ mesa }) => {
+  const { isPending, mutateAsync } = useActualizarEstadoMesa();
+
   const estadoMesa = (estado: string) => {
     let span;
 
@@ -33,6 +36,16 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
     return span;
   };
 
+  const tomarMesa = async () => {
+    mutateAsync({
+      id: mesa.id,
+      body: {
+        mesero_id: mesa.mesero_id,
+        estado_actual: "OCUPADO",
+      },
+    });
+  };
+
   return (
     <div className="flex flex-col p-6 border-2 gap-4 border-gray-400 w-50 rounded-xl mx-auto">
       <PiPicnicTableBold
@@ -40,8 +53,7 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
         className="mx-auto"
       />
       <h4 className="text-xl font-bold ">{mesa.nombre} </h4>
-
-      {mesa.mesero_id && (
+      {mesa.mesero && (
         <>
           <span>Te atiende: </span>
           <p>{mesa.mesero?.nombre_completo}</p>
@@ -50,8 +62,13 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
 
       {estadoMesa(mesa.estado_actual)}
 
-      {!mesa.mesero_id && mesa.estado_actual == "DISPONIBLE" && (
-        <Button className="mt-3">Tomar Mesa</Button>
+      {!mesa.mesero && mesa.estado_actual == "DISPONIBLE" && (
+        <Button
+          className="mt-3"
+          onClick={tomarMesa}
+        >
+          Tomar Mesa
+        </Button>
       )}
     </div>
   );

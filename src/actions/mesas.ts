@@ -4,6 +4,7 @@ import type {
   RespuestaMesa,
   MesaResponse,
   TodasLasMesas,
+  ActualizarEstadoMesa,
 } from "@/interfaces/mesa.interface";
 
 const obtenerMesasAction = async (): Promise<MesaResponse> => {
@@ -40,6 +41,21 @@ const actualizarMesaAction = async (
 
   return data;
 };
+const actualizarEstadoMesa = async (
+  mesa_id: string,
+  estado: ActualizarEstadoMesa
+) => {
+  const { data } = await shadowPosApi.patch<RespuestaMesa>(
+    `/mesas/${mesa_id}`,
+    {
+      mesa_id,
+      mesero_id: estado.mesero_id,
+      estado_mesa: estado.estado_actual,
+    }
+  );
+
+  return data;
+};
 
 const eliminarMesaAction = async (mesa_id: string): Promise<RespuestaMesa> => {
   const { data } = await shadowPosApi.delete<RespuestaMesa>(
@@ -55,4 +71,5 @@ export {
   actualizarMesaAction,
   eliminarMesaAction,
   obtenerTodasLasMesasAction,
+  actualizarEstadoMesa,
 };
