@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import useRoles from "@/hooks/roles/useRoles";
 import useCrearUsuarios from "@/hooks/usuarios/useCrearUsuarios";
+import Label from "@/components/shared/FormLabel";
 
 type Inputs = {
   nombre_completo: string;
@@ -198,21 +199,6 @@ const CrearUsuario: FC<CrearUsuarioProps> = ({}) => {
         </Button>
       </form>
     </>
-  );
-};
-interface LabelProps {
-  text: string;
-  id: string;
-}
-
-const Label = ({ text, id }: LabelProps) => {
-  return (
-    <label
-      htmlFor={id}
-      className="font-bold py-2 text-sm  inline-block"
-    >
-      {text}
-    </label>
   );
 };
 

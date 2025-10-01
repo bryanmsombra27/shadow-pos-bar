@@ -46,8 +46,13 @@ const menuItems = [
   },
 
   {
-    title: "Settings",
-    url: "/settings",
+    title: "Productos",
+    url: "productos",
+    icon: Settings,
+  },
+  {
+    title: "Categorias",
+    url: "categorias",
     icon: Settings,
   },
 ];
