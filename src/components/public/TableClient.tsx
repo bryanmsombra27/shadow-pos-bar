@@ -3,6 +3,8 @@ import type { FC } from "react";
 import { PiPicnicTableBold } from "react-icons/pi";
 import { Button } from "../ui/button";
 import useActualizarEstadoMesa from "@/hooks/mesas/useActualizarEstadoMesa";
+import { useMesaStore } from "@/store/mesa";
+import { useNavigate } from "react-router";
 
 const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
 
@@ -11,6 +13,8 @@ interface TableClientProps {
 }
 const TableClient: FC<TableClientProps> = ({ mesa }) => {
   const { isPending, mutateAsync } = useActualizarEstadoMesa();
+  const { setMesa } = useMesaStore();
+  const navigate = useNavigate();
 
   const estadoMesa = (estado: string) => {
     let span;
@@ -39,7 +43,9 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
   };
 
   const tomarMesa = async () => {
-    mutateAsync({
+    setMesa(mesa.id);
+
+    await mutateAsync({
       id: mesa.id,
       body: {
         // mesero_id: mesa.mesero_id,
@@ -48,6 +54,8 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
         estado_actual: "OCUPADO",
       },
     });
+
+    navigate("/menu");
   };
 
   return (

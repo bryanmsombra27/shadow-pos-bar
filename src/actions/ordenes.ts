@@ -5,7 +5,6 @@ const crearOrden = async (body: CrearOrden) => {
   const { data } = await shadowPosApi.post("/orden", body);
 
   return data;
-  1;
 };
 
 export { crearOrden };

@@ -13,13 +13,13 @@ const MenuItem: FC<MenuItemProps> = ({ producto }) => {
   const handleMinusCounter = () => {
     if (counter > 0) {
       setCounter((prevState) => prevState - 1);
-      setPedido(producto.id, -1);
+      setPedido(producto.id, -1, producto.precio);
     }
   };
 
   const handleAddCounter = () => {
     setCounter((prevState) => prevState + 1);
-    setPedido(producto.id, 1);
+    setPedido(producto.id, 1, producto.precio);
   };
 
   return (
