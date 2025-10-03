@@ -37,6 +37,7 @@ const ActualizarProductos: FC<ActualizarProductosProps> = ({ producto }) => {
       marca: producto.marca,
       descripcion: producto.descripcion,
       nombre: producto.nombre,
+      precio: producto.precio,
     },
   });
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -48,6 +49,7 @@ const ActualizarProductos: FC<ActualizarProductosProps> = ({ producto }) => {
         descripcion: data.descripcion,
         marca: data.marca,
         nombre: data.nombre,
+        precio: +data.precio,
       },
     });
   };
@@ -56,7 +58,7 @@ const ActualizarProductos: FC<ActualizarProductosProps> = ({ producto }) => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col gap-5"
+        className="grid grid-cols-2  gap-5"
       >
         <div className="my-1">
           <Label
@@ -149,6 +151,20 @@ const ActualizarProductos: FC<ActualizarProductosProps> = ({ producto }) => {
           {errors.cantidad_producto && (
             <ErrorMessage message=" El campo es requerido" />
           )}
+        </div>
+        <div className="my-1">
+          <Label
+            text="precio del producto"
+            id="precio"
+          />
+          <Input
+            id="precio"
+            type="number"
+            placeholder="Ingresa la cantidad del producto..."
+            {...register("precio", {})}
+            className={errors.precio ? "border-2 border-red-400" : ""}
+          />
+          {errors.precio && <ErrorMessage message=" El campo es requerido" />}
         </div>
 
         <Button

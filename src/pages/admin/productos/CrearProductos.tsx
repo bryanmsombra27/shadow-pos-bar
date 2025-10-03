@@ -38,6 +38,7 @@ const CrearProductos: FC<CrearProductosProps> = ({}) => {
         marca: data.marca,
         nombre: data.nombre,
         cantidad_producto: +data.cantidad_producto,
+        precio: +data.precio,
       },
     });
 
@@ -46,13 +47,14 @@ const CrearProductos: FC<CrearProductosProps> = ({}) => {
     setValue("descripcion", "");
     setValue("marca", "");
     setValue("cantidad_producto", 0);
+    setValue("precio", 0);
   };
 
   return (
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col gap-5"
+        className="grid grid-cols-2 gap-5"
       >
         <div className="my-1">
           <Label
@@ -145,6 +147,21 @@ const CrearProductos: FC<CrearProductosProps> = ({}) => {
           {errors.cantidad_producto && (
             <ErrorMessage message=" El campo es requerido" />
           )}
+        </div>
+
+        <div className="my-1">
+          <Label
+            text="precio del producto"
+            id="precio"
+          />
+          <Input
+            id="precio"
+            type="number"
+            placeholder="Ingresa la cantidad del producto..."
+            {...register("precio", {})}
+            className={errors.precio ? "border-2 border-red-400" : ""}
+          />
+          {errors.precio && <ErrorMessage message=" El campo es requerido" />}
         </div>
 
         <Button

@@ -18,7 +18,7 @@ export interface Mesa {
   id: string;
   nombre: string;
   es_vip: boolean;
-  estado_actual: string;
+  estado_actual: EstadoMesa;
   mesero_id: null | string;
   mesero: null | Mesero;
 }
@@ -29,6 +29,8 @@ export type ActualizarMesa = Pick<
 >;
 
 export type ActualizarEstadoMesa = Pick<Mesa, "estado_actual" | "mesero_id">;
+
+type EstadoMesa = "DISPONIBLE" | "OCUPADO" | "RESERVADO";
 
 interface Mesero {
   id: string;

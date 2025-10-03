@@ -17,6 +17,7 @@ export interface Producto {
   categoria_id: string;
   categoria: Categoria;
   inventario: Inventario | null;
+  precio: number;
 }
 
 export interface RespuestaProducto {
@@ -36,3 +37,7 @@ type Inventario = {
   en_venta: number | null;
   producto_id: string;
 };
+
+export interface TodosLosProductos {
+  productos: Producto[];
+}

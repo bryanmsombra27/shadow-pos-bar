@@ -45,14 +45,11 @@ const actualizarEstadoMesa = async (
   mesa_id: string,
   estado: ActualizarEstadoMesa
 ) => {
-  const { data } = await shadowPosApi.patch<RespuestaMesa>(
-    `/mesas/${mesa_id}`,
-    {
-      mesa_id,
-      mesero_id: estado.mesero_id,
-      estado_mesa: estado.estado_actual,
-    }
-  );
+  const { data } = await shadowPosApi.patch<RespuestaMesa>(`/mesas/estado`, {
+    mesa_id,
+    mesero_id: estado.mesero_id,
+    estado_mesa: estado.estado_actual,
+  });
 
   return data;
 };

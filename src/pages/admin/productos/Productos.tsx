@@ -45,6 +45,7 @@ const Productos: FC<ProductosProps> = ({}) => {
         return (
           <div className="flex gap-5 my-2">
             <CustomModal
+              className="sm:max-w-[1000px]"
               isManualTrigger
               description="Actualiza la informacion del registro"
               trigger={
@@ -77,6 +78,7 @@ const Productos: FC<ProductosProps> = ({}) => {
       <>
         <div className="container mx-auto p-6">
           <CustomModal
+            className="sm:max-w-[1000px]"
             triggerName="Agregar Producto"
             description="Crea un nuevo registro"
             title="Nuevo Producto"

@@ -1,5 +1,8 @@
 import { actualizarEstadoMesa } from "@/actions/mesas";
-import type { ActualizarEstadoMesa } from "@/interfaces/mesa.interface";
+import type {
+  ActualizarEstadoMesa,
+  TodasLasMesas,
+} from "@/interfaces/mesa.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -16,21 +19,24 @@ const useActualizarEstadoMesa = () => {
     onSuccess: async (value) => {
       toast.success(value.mensaje);
 
-      //  await queryClient.setQueryData(
-      // ['categorias'],
-      // (state: any) => {
-      // return value.categoria
-      // ? ({
-      // ...state,
-      //  total_registros: state.total_registros + 1,
-      //   categorias: [value.categoria, ...state.categorias],
-      //   } as )
-      // : state;
-      // }
-      // );
+      await queryClient.setQueryData(
+        ["todas-mesas"],
+        (state: TodasLasMesas) => {
+          return value.mesa
+            ? ({
+                mesas: state.mesas.map((mesa) => {
+                  if (mesa.id == value.mesa.id) {
+                    return value.mesa;
+                  }
+                  return mesa;
+                }),
+              } as TodasLasMesas)
+            : state;
+        }
+      );
     },
     onError: () => {
-      toast.error("No fue posible crear la categoria");
+      toast.error("No fue posible tomar la mesa");
     },
   });
 

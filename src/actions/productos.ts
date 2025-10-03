@@ -3,10 +3,16 @@ import type {
   ProductoForm,
   ProductoResponse,
   RespuestaProducto,
+  TodosLosProductos,
 } from "@/interfaces/producto.interface";
 
 const obtenerProductos = async (): Promise<ProductoResponse> => {
   const { data } = await shadowPosApi.get<ProductoResponse>("/producto");
+
+  return data;
+};
+const obtenerTodosLosProductos = async (): Promise<TodosLosProductos> => {
+  const { data } = await shadowPosApi.get<TodosLosProductos>("/producto/all");
 
   return data;
 };
@@ -45,4 +51,5 @@ export {
   actualizarProducto,
   eliminarProducto,
   crearProducto,
+  obtenerTodosLosProductos,
 };

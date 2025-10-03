@@ -4,6 +4,8 @@ import { PiPicnicTableBold } from "react-icons/pi";
 import { Button } from "../ui/button";
 import useActualizarEstadoMesa from "@/hooks/mesas/useActualizarEstadoMesa";
 
+const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
+
 interface TableClientProps {
   mesa: Mesa;
 }
@@ -40,7 +42,9 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
     mutateAsync({
       id: mesa.id,
       body: {
-        mesero_id: mesa.mesero_id,
+        // mesero_id: mesa.mesero_id,
+        mesero_id: mesero_id,
+
         estado_actual: "OCUPADO",
       },
     });

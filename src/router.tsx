@@ -7,12 +7,17 @@ import Usuarios from "./pages/admin/usuarios/Usuarios";
 import MesasPublic from "./pages/public/Mesas";
 import Productos from "./pages/admin/productos/Productos";
 import Categorias from "./pages/categorias/Categorias";
+import Menu from "./components/public/Menu";
 
 export const appRouter = createBrowserRouter([
   {
     path: "",
     index: true,
     element: <MesasPublic />,
+  },
+  {
+    path: "menu",
+    element: <Menu />,
   },
   {
     path: "admin",
