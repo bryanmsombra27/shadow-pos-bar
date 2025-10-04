@@ -8,6 +8,7 @@ import MesasPublic from "./pages/public/Mesas";
 import Productos from "./pages/admin/productos/Productos";
 import Categorias from "./pages/categorias/Categorias";
 import Menu from "./components/public/Menu";
+import OrderDetails from "./pages/admin/ordenes/OrderDetails";
 
 export const appRouter = createBrowserRouter([
   {
@@ -46,6 +47,14 @@ export const appRouter = createBrowserRouter([
       {
         path: "categorias",
         element: <Categorias />,
+      },
+      {
+        path: "ordenes",
+        element: <MesasPublic isAdmin />,
+      },
+      {
+        path: "orden/:id",
+        element: <OrderDetails />,
       },
     ],
   },

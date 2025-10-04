@@ -7,11 +7,13 @@ import { useMesaStore } from "@/store/mesa";
 import { useNavigate } from "react-router";
 
 const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
+const admin_id = "9b22e543-1787-404c-9925-099c2eb76de6";
 
 interface TableClientProps {
   mesa: Mesa;
+  isAdmin?: boolean;
 }
-const TableClient: FC<TableClientProps> = ({ mesa }) => {
+const TableClient: FC<TableClientProps> = ({ mesa, isAdmin = false }) => {
   const { isPending, mutateAsync } = useActualizarEstadoMesa();
   const { setMesa } = useMesaStore();
   const navigate = useNavigate();
@@ -80,6 +82,15 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
           onClick={tomarMesa}
         >
           Tomar Mesa
+        </Button>
+      )}
+
+      {admin_id && isAdmin && (
+        <Button
+          className="mt-3"
+          onClick={() => navigate(`/admin/orden/${mesa.id}`)}
+        >
+          Ver Orden
         </Button>
       )}
     </div>

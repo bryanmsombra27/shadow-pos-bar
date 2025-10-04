@@ -13,8 +13,6 @@ type State = InitialState & Actions;
 export const useMesaStore = create<State>()((set, get) => ({
   mesa_id: "",
   setMesa: (id) => {
-    console.log("mesa para asignar", id);
-
     set({
       mesa_id: id,
     });

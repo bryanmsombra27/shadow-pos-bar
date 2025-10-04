@@ -2,9 +2,10 @@ import { Loader } from "@/components/custom";
 import TableClient from "@/components/public/TableClient";
 import useTodasLasMesas from "@/hooks/mesas/useTodasLasMesas";
 import type { FC } from "react";
-import { PiPicnicTableBold } from "react-icons/pi";
-interface MesasProps {}
-const Mesas: FC<MesasProps> = ({}) => {
+interface MesasProps {
+  isAdmin?: boolean;
+}
+const Mesas: FC<MesasProps> = ({ isAdmin }) => {
   const { data, error, isPending } = useTodasLasMesas();
 
   if (isPending) return <Loader />;
@@ -26,6 +27,7 @@ const Mesas: FC<MesasProps> = ({}) => {
             <TableClient
               mesa={mesa}
               key={mesa.id}
+              isAdmin={isAdmin}
             />
           ))}
       </div>
