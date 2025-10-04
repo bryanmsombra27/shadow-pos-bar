@@ -3,19 +3,17 @@ import DataTable from "@/components/custom/DataTable";
 import useObtenerMesas from "@/hooks/mesas/useObtenerMesas";
 import type { Mesa } from "@/interfaces/mesa.interface";
 import type { ColumnDef } from "@tanstack/react-table";
-import { FiEdit } from "react-icons/fi";
 
 import type { FC } from "react";
 
 import CrearMesa from "./CrearMesa";
 import ActualizarMesaForm from "./ActualizarMesa";
-import DeleteConfirmAction from "@/components/shared/DeleteConfirmAction";
 import useEliminarMesa from "@/hooks/mesas/useEliminarMesa";
 
 interface MesasProps {}
 const Mesas: FC<MesasProps> = ({}) => {
   const { data, error, isPending } = useObtenerMesas();
-  const { isPending: isMutationPending, mutateAsync } = useEliminarMesa();
+  const { mutateAsync } = useEliminarMesa();
 
   if (isPending) return <Loader />;
 
@@ -44,39 +42,6 @@ const Mesas: FC<MesasProps> = ({}) => {
       header: "Mesero",
       accessorFn: (row) => row.mesero?.nombre_completo ?? "No Asignado",
     },
-    {
-      // accessorKey: "acciones",
-      header: "Acciones",
-      cell: ({ row }) => {
-        // console.log(row, "quejso");
-        return (
-          <div className="flex gap-5 my-2">
-            <CustomModal
-              isManualTrigger
-              description="Actualiza la informacion del registro"
-              trigger={
-                <>
-                  <FiEdit
-                    className="cursor-pointer"
-                    size={22}
-                  />
-                </>
-              }
-              title={`Mesa ${row.original.nombre}`}
-            >
-              <ActualizarMesaForm mesa={row.original} />
-            </CustomModal>
-
-            <DeleteConfirmAction
-              deleteAction={async () => {
-                await mutateAsync({ id: row.original.id });
-              }}
-              title={`¿Esta seguro que desea eliminar la mesa ${row.original.nombre}`}
-            />
-          </div>
-        );
-      },
-    },
   ];
 
   return (
@@ -92,6 +57,11 @@ const Mesas: FC<MesasProps> = ({}) => {
           </CustomModal>
 
           <DataTable
+            showActions
+            delete_title="Esta seguro que desea eliminar la mesa"
+            delete_function={mutateAsync}
+            edit_component={(row) => <ActualizarMesaForm mesa={row.original} />}
+            title_property="nombre"
             columns={columns}
             data={data?.mesas}
           />

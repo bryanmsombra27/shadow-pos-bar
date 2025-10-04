@@ -1,11 +1,9 @@
 import { CustomModal, Loader } from "@/components/custom";
 import DataTable from "@/components/custom/DataTable";
-import DeleteConfirmAction from "@/components/shared/DeleteConfirmAction";
 import useObtenerUsuarios from "@/hooks/usuarios/useObtenerUsuarios";
 import type { Usuario } from "@/interfaces/usuario.interface";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { FC } from "react";
-import { FiEdit } from "react-icons/fi";
 import CrearUsuario from "./CrearUsuario";
 import ActualizarUsuario from "./ActualizarUsuario";
 import useEliminarUsuarios from "@/hooks/usuarios/useEliminarUsuarios";
@@ -42,39 +40,6 @@ const Usuarios: FC<UsuariosProps> = ({}) => {
       header: "Puesto",
       //   accessorFn: (row) => row.mesero?.nombre_completo ?? "No Asignado",
     },
-    {
-      // accessorKey: "acciones",
-      header: "Acciones",
-      cell: ({ row }) => {
-        // console.log(row, "quejso");
-        return (
-          <div className="flex gap-5 my-2">
-            <CustomModal
-              isManualTrigger
-              description="Actualiza la informacion del registro"
-              trigger={
-                <>
-                  <FiEdit
-                    className="cursor-pointer"
-                    size={22}
-                  />
-                </>
-              }
-              title={`Usuario ${row.original.nombre_usuario}`}
-            >
-              <ActualizarUsuario usuario={row.original} />
-            </CustomModal>
-
-            <DeleteConfirmAction
-              deleteAction={async () => {
-                await mutateAsync({ id: row.original.id });
-              }}
-              title={`¿Esta seguro que desea eliminar el usuario ${row.original.nombre_usuario}`}
-            />
-          </div>
-        );
-      },
-    },
   ];
 
   return (
@@ -94,6 +59,13 @@ const Usuarios: FC<UsuariosProps> = ({}) => {
           <DataTable
             columns={columns}
             data={data?.usuarios}
+            showActions
+            title_property="nombre_usuario"
+            delete_title="Esta seguro que desa eliminar el usuario"
+            delete_function={mutateAsync}
+            edit_component={(row) => (
+              <ActualizarUsuario usuario={row.original} />
+            )}
           />
         </div>
       </>

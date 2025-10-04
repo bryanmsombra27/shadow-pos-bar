@@ -73,6 +73,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
           />
 
           <DataTable
+            showActions={false}
             columns={columns}
             data={data?.orden.pedidos}
           />

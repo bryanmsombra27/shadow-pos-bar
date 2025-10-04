@@ -1,12 +1,10 @@
 import { CustomModal } from "@/components/custom";
 import DataTable from "@/components/custom/DataTable";
-import DeleteConfirmAction from "@/components/shared/DeleteConfirmAction";
 import useObtenerCategorias from "@/hooks/categorias/useObtenerCategorias";
 import type { Categoria } from "@/interfaces/categoria.interface";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Loader } from "lucide-react";
 import type { FC } from "react";
-import { FiEdit } from "react-icons/fi";
 import CrearCategoria from "./CrearCategoria";
 import ActualizarCategoria from "./ActualizarCategoria";
 import useEliminarCategorias from "@/hooks/categorias/useEliminarCategorias";
@@ -31,42 +29,6 @@ const Categorias: FC<CategoriasProps> = ({}) => {
       header: "Categoria",
       size: 80,
     },
-
-    {
-      // accessorKey: "acciones",
-      header: "Acciones",
-      size: 20,
-      cell: ({ row }) => {
-        // console.log(row, "quejso");
-        return (
-          <div className="flex gap-5 my-2">
-            <CustomModal
-              isManualTrigger
-              description="Actualiza la informacion del registro"
-              trigger={
-                <>
-                  <FiEdit
-                    className="cursor-pointer"
-                    size={22}
-                  />
-                </>
-              }
-              title={`${row.original.nombre}`}
-            >
-              <h2>kaso</h2>
-              <ActualizarCategoria categoria={row.original} />
-            </CustomModal>
-
-            <DeleteConfirmAction
-              deleteAction={async () => {
-                await mutateAsync({ id: row.original.id });
-              }}
-              title={`¿Esta seguro que desea eliminar la categoria de  ${row.original.nombre}`}
-            />
-          </div>
-        );
-      },
-    },
   ];
 
   return (
@@ -84,6 +46,13 @@ const Categorias: FC<CategoriasProps> = ({}) => {
           <DataTable
             columns={columns}
             data={data?.categorias}
+            title_property="nombre"
+            showActions
+            delete_title="Esta seguro de eliminar la categoria de"
+            delete_function={mutateAsync}
+            edit_component={(row) => (
+              <ActualizarCategoria categoria={row.original} />
+            )}
           />
         </div>
       </>
