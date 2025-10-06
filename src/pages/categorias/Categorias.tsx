@@ -14,9 +14,7 @@ interface CategoriasProps {}
 const Categorias: FC<CategoriasProps> = ({}) => {
   const { mutateAsync } = useEliminarCategorias();
   const { pagination, setPagination } = useCategoriasPaginacion();
-  const { data, error, isPending } = useObtenerCategorias({
-    page:pagination.pageIndex +1
-  });
+  const { data, error, isPending } = useObtenerCategorias();
 
   if (isPending) return <Loader />;
 

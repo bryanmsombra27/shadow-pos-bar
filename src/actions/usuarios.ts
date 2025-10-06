@@ -1,4 +1,5 @@
 import { shadowPosApi } from "@/api/api";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import type {
   RespuestaUsuario,
   Usuario,
@@ -31,8 +32,22 @@ const actualizarUsuario = async (
   return data;
 };
 
-const obtenerUsuarios = async (): Promise<UsuarioResponse> => {
-  const { data } = await shadowPosApi.get<UsuarioResponse>("/usuario");
+const obtenerUsuarios = async (
+  pagination?: Pagination
+): Promise<UsuarioResponse> => {
+  let endpoint = "/usuario";
+
+  if (pagination?.page && pagination.search) {
+    endpoint = endpoint.concat(
+      `?page=${pagination.page}&search=${pagination.search}`
+    );
+  } else if (pagination?.page) {
+    endpoint = endpoint.concat(`?page=${pagination.page}`);
+  } else if (pagination?.search) {
+    endpoint = endpoint.concat(`?search=${pagination?.search}`);
+  }
+
+  const { data } = await shadowPosApi.get<UsuarioResponse>(endpoint);
 
   return data;
 };

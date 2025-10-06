@@ -7,11 +7,13 @@ import type { FC } from "react";
 import CrearUsuario from "./CrearUsuario";
 import ActualizarUsuario from "./ActualizarUsuario";
 import useEliminarUsuarios from "@/hooks/usuarios/useEliminarUsuarios";
+import { useUsuariosPaginacion } from "@/store/UsuariosPaginacion";
 
 interface UsuariosProps {}
 const Usuarios: FC<UsuariosProps> = ({}) => {
   const { data, error, isPending } = useObtenerUsuarios();
   const { mutateAsync } = useEliminarUsuarios();
+  const { pagination, setPagination } = useUsuariosPaginacion();
 
   if (isPending) return <Loader />;
 
@@ -59,6 +61,9 @@ const Usuarios: FC<UsuariosProps> = ({}) => {
           <DataTable
             columns={columns}
             data={data?.usuarios}
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.total_paginas}
             showActions
             title_property="nombre_usuario"
             delete_title="Esta seguro que desa eliminar el usuario"

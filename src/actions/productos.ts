@@ -1,4 +1,5 @@
 import { shadowPosApi } from "@/api/api";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import type {
   ProductoForm,
   ProductoResponse,
@@ -6,8 +7,22 @@ import type {
   TodosLosProductos,
 } from "@/interfaces/producto.interface";
 
-const obtenerProductos = async (): Promise<ProductoResponse> => {
-  const { data } = await shadowPosApi.get<ProductoResponse>("/producto");
+const obtenerProductos = async (
+  pagination?: Pagination
+): Promise<ProductoResponse> => {
+  let endpoint = "/producto";
+
+  if (pagination?.page && pagination.search) {
+    endpoint = endpoint.concat(
+      `?page=${pagination.page}&search=${pagination.search}`
+    );
+  } else if (pagination?.page) {
+    endpoint = endpoint.concat(`?page=${pagination.page}`);
+  } else if (pagination?.search) {
+    endpoint = endpoint.concat(`?search=${pagination?.search}`);
+  }
+
+  const { data } = await shadowPosApi.get<ProductoResponse>(endpoint);
 
   return data;
 };

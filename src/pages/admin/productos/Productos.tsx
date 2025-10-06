@@ -7,11 +7,13 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { FC } from "react";
 import CrearProductos from "./CrearProductos";
 import ActualizarProductos from "./ActualizarProductos";
+import { useProductosPaginacion } from "@/store/ProductosPaginacion";
 
 interface ProductosProps {}
 const Productos: FC<ProductosProps> = ({}) => {
   const { data, error, isPending } = useObtenerProductos();
   const { mutateAsync } = useEliminarProductos();
+  const { pagination, setPagination } = useProductosPaginacion();
 
   if (isPending) return <Loader />;
 
@@ -58,6 +60,9 @@ const Productos: FC<ProductosProps> = ({}) => {
             title_property="nombre"
             columns={columns}
             data={data?.productos}
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.total_paginas}
           />
         </div>
       </>

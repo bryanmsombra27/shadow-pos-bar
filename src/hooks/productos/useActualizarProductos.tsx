@@ -3,6 +3,7 @@ import type {
   ProductoForm,
   ProductoResponse,
 } from "@/interfaces/producto.interface";
+import { useProductosPaginacion } from "@/store/ProductosPaginacion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -13,6 +14,7 @@ type BodyMutation = {
 
 const useActualizarProductos = () => {
   const queryClient = useQueryClient();
+  const { pagination } = useProductosPaginacion();
 
   const { data, error, isPending, mutateAsync } = useMutation({
     mutationFn: ({ id, producto }: BodyMutation) =>
@@ -21,7 +23,7 @@ const useActualizarProductos = () => {
       toast.success(value.mensaje);
 
       await queryClient.setQueryData(
-        ["productos"],
+        ["productos", pagination],
         (state: ProductoResponse) => {
           return value.producto
             ? ({

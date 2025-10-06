@@ -11,6 +11,8 @@ import Menu from "./components/public/Menu";
 import OrderDetails from "./pages/admin/ordenes/OrderDetails";
 import { RolPaginacionProvider } from "./store/rolPaginacion";
 import { CategoriasPaginacionProvider } from "./store/CategoriasPaginacion";
+import { UsuariosPaginacionProvider } from "./store/UsuariosPaginacion";
+import { ProductosPaginacionProvider } from "./store/ProductosPaginacion";
 
 export const appRouter = createBrowserRouter([
   {
@@ -46,11 +48,19 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "trabajadores",
-        element: <Usuarios />,
+        element: (
+          <UsuariosPaginacionProvider>
+            <Usuarios />
+          </UsuariosPaginacionProvider>
+        ),
       },
       {
         path: "productos",
-        element: <Productos />,
+        element: (
+          <ProductosPaginacionProvider>
+            <Productos />
+          </ProductosPaginacionProvider>
+        ),
       },
       {
         path: "categorias",
