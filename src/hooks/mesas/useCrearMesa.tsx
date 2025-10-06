@@ -1,9 +1,10 @@
 import { crearMesaAction } from "@/actions/mesas";
 import type { MesaResponse } from "@/interfaces/mesa.interface";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-const useCrearMesa = () => {
+const useCrearMesa = (pagination?: Pagination) => {
   const queryClient = useQueryClient();
 
   const { data, error, isPending, mutateAsync } = useMutation({
@@ -16,14 +17,17 @@ const useCrearMesa = () => {
       //     queryKey: ["Mesas"],
       //   });
 
-      await queryClient.setQueryData(["Mesas"], (oldData: MesaResponse) =>
-        val.mesa
-          ? {
-              ...oldData,
-              total_registros: oldData.total_registros + 1,
-              mesas: [...oldData.mesas, val.mesa],
-            }
-          : oldData
+      await queryClient.setQueryData(
+        ["Mesas", pagination],
+        (oldData: MesaResponse) => {
+          return val.mesa
+            ? ({
+                ...oldData,
+                total_registros: oldData.total_registros + 1,
+                mesas: [...oldData.mesas, val.mesa],
+              } as MesaResponse)
+            : oldData;
+        }
       );
     },
     onError: () => {

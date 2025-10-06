@@ -19,8 +19,9 @@ interface Inputs extends ActualizarMesa {}
 
 interface ActualizarMesaProps {
   mesa: Mesa;
+  page: number;
 }
-const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
+const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa, page }) => {
   //   console.log(mesa, "mesa");
   const { data } = useMeseros();
 
@@ -35,7 +36,7 @@ const ActualizarMesaForm: FC<ActualizarMesaProps> = ({ mesa }) => {
     },
   });
 
-  const { mutateAsync, isPending } = useActualizarMesa(mesa.id);
+  const { mutateAsync, isPending } = useActualizarMesa(mesa.id, { page });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await mutateAsync({

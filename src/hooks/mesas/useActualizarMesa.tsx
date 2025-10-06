@@ -1,5 +1,6 @@
 import { actualizarMesaAction } from "@/actions/mesas";
 import type { ActualizarMesa, MesaResponse } from "@/interfaces/mesa.interface";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -7,7 +8,7 @@ interface BodyMutationVariables {
   mesa: ActualizarMesa;
 }
 
-const useActualizarMesa = (id: string) => {
+const useActualizarMesa = (id: string, pagination: Pagination) => {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ mesa }: BodyMutationVariables) =>
@@ -15,19 +16,22 @@ const useActualizarMesa = (id: string) => {
     onSuccess: async (value) => {
       toast.success(value.mensaje);
 
-      await queryClient.setQueryData(["Mesas"], (oldData: MesaResponse) => {
-        return value.mesa
-          ? {
-              ...oldData,
-              mesas: oldData.mesas.map((item) => {
-                if (item.id == id) {
-                  return value.mesa;
-                }
-                return item;
-              }),
-            }
-          : oldData;
-      });
+      await queryClient.setQueryData(
+        ["Mesas", pagination],
+        (oldData: MesaResponse) => {
+          return value.mesa
+            ? {
+                ...oldData,
+                mesas: oldData.mesas.map((item) => {
+                  if (item.id == id) {
+                    return value.mesa;
+                  }
+                  return item;
+                }),
+              }
+            : oldData;
+        }
+      );
     },
     onError: () => {
       toast.error("No fue posible actualizar la mesa");

@@ -2,6 +2,7 @@ import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -14,19 +15,23 @@ import {
 } from "@/components/ui/table";
 import CustomModal from "./CustomModal";
 import { FiEdit } from "react-icons/fi";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode } from "react";
 import DeleteConfirmAction from "../shared/DeleteConfirmAction";
 import type { UseMutateAsyncFunction } from "@tanstack/react-query";
+import type { ReactTablePagination } from "@/interfaces/paginacion.interface";
+import { Button } from "../ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  // delete_function: (param: {}) => void;
   edit_component?: (row: any) => ReactNode;
   title_property?: any;
   delete_title?: string;
   delete_function?: UseMutateAsyncFunction<any, Error, any, unknown>;
   showActions: boolean;
+  pagination: ReactTablePagination;
+  setPagination: Dispatch<React.SetStateAction<ReactTablePagination>>;
+  totalPages: number;
 }
 function DataTable<TData, TValue>({
   columns,
@@ -36,11 +41,20 @@ function DataTable<TData, TValue>({
   delete_title,
   delete_function,
   showActions = true,
+  setPagination,
+  pagination,
+  totalPages,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      pagination,
+    },
     getCoreRowModel: getCoreRowModel(),
+    onPaginationChange: setPagination,
+    manualPagination: true,
+    pageCount: totalPages,
   });
 
   return (
@@ -128,6 +142,34 @@ function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+
+        <div className="flex items-center justify-end space-x-2 mt-4 py-4 px-6 gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+
+          <span className="text-sm">
+            Página {table.getState().pagination.pageIndex + 1} de{" "}
+            {table.getPageCount()}
+          </span>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              console.log(table.getPageCount(), "PAGINA CUENTA");
+              table.nextPage();
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </>
   );

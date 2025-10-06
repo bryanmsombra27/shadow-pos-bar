@@ -6,9 +6,24 @@ import type {
   TodasLasMesas,
   ActualizarEstadoMesa,
 } from "@/interfaces/mesa.interface";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 
-const obtenerMesasAction = async (): Promise<MesaResponse> => {
-  const { data } = await shadowPosApi.get<MesaResponse>("/mesas");
+const obtenerMesasAction = async (
+  pagination?: Pagination
+): Promise<MesaResponse> => {
+  let endpoint = "/mesas";
+
+  if (pagination?.page && pagination.search) {
+    endpoint = endpoint.concat(
+      `?page=${pagination.page}&search=${pagination.search}`
+    );
+  } else if (pagination?.page) {
+    endpoint = endpoint.concat(`?page=${pagination.page}`);
+  } else if (pagination?.search) {
+    endpoint = endpoint.concat(`?search=${pagination?.search}`);
+  }
+
+  const { data } = await shadowPosApi.get<MesaResponse>(endpoint);
 
   return data;
 };

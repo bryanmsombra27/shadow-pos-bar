@@ -1,10 +1,11 @@
 import { obtenerMesasAction } from "@/actions/mesas";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import { useQuery } from "@tanstack/react-query";
 
-const useObtenerMesas = () => {
+const useObtenerMesas = (pagination?: Pagination) => {
   const { data, error, isPending } = useQuery({
-    queryKey: ["Mesas"],
-    queryFn: obtenerMesasAction,
+    queryKey: ["Mesas", pagination],
+    queryFn: () => obtenerMesasAction(pagination),
     refetchOnWindowFocus: false,
   });
 

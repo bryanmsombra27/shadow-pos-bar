@@ -9,9 +9,13 @@ type Inputs = {
   mesa: string;
 };
 
-interface CrearMesaProps {}
-const CrearMesa: FC<CrearMesaProps> = ({}) => {
-  const { isPending, mutateAsync } = useCrearMesa();
+interface CrearMesaProps {
+  page: number;
+}
+const CrearMesa: FC<CrearMesaProps> = ({ page }) => {
+  const { isPending, mutateAsync } = useCrearMesa({
+    page,
+  });
 
   const {
     register,

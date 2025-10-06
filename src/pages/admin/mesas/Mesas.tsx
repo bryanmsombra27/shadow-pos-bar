@@ -4,16 +4,28 @@ import useObtenerMesas from "@/hooks/mesas/useObtenerMesas";
 import type { Mesa } from "@/interfaces/mesa.interface";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import type { FC } from "react";
+import { useState, type FC } from "react";
 
 import CrearMesa from "./CrearMesa";
 import ActualizarMesaForm from "./ActualizarMesa";
 import useEliminarMesa from "@/hooks/mesas/useEliminarMesa";
+import type { ReactTablePagination } from "@/interfaces/paginacion.interface";
 
 interface MesasProps {}
 const Mesas: FC<MesasProps> = ({}) => {
-  const { data, error, isPending } = useObtenerMesas();
-  const { mutateAsync } = useEliminarMesa();
+  const [pagination, setPagination] = useState<ReactTablePagination>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const currentPage = pagination.pageIndex + 1;
+
+  const { data, error, isPending } = useObtenerMesas({
+    page: currentPage,
+  });
+  const { mutateAsync } = useEliminarMesa({
+    page: currentPage,
+  });
 
   if (isPending) return <Loader />;
 
@@ -53,17 +65,25 @@ const Mesas: FC<MesasProps> = ({}) => {
             description="Crea un nuevo registro"
             title="Nueva Mesa"
           >
-            <CrearMesa />
+            <CrearMesa page={currentPage} />
           </CustomModal>
 
           <DataTable
             showActions
             delete_title="Esta seguro que desea eliminar la mesa"
             delete_function={mutateAsync}
-            edit_component={(row) => <ActualizarMesaForm mesa={row.original} />}
+            edit_component={(row) => (
+              <ActualizarMesaForm
+                mesa={row.original}
+                page={currentPage}
+              />
+            )}
             title_property="nombre"
             columns={columns}
             data={data?.mesas}
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.total_paginas}
           />
         </div>
       </>
