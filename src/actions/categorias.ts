@@ -4,9 +4,24 @@ import type {
   RespuestaCategoria,
   TodasLasCategorias,
 } from "@/interfaces/categoria.interface";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 
-const obtenerCategorias = async (): Promise<CategoriaResponse> => {
-  const { data } = await shadowPosApi.get<CategoriaResponse>("/categoria");
+const obtenerCategorias = async (
+  pagination?: Pagination
+): Promise<CategoriaResponse> => {
+  let endpoint = "/categoria";
+
+  if (pagination?.page && pagination.search) {
+    endpoint = endpoint.concat(
+      `?page=${pagination.page}&search=${pagination.search}`
+    );
+  } else if (pagination?.page) {
+    endpoint = endpoint.concat(`?page=${pagination.page}`);
+  } else if (pagination?.search) {
+    endpoint = endpoint.concat(`?search=${pagination?.search}`);
+  }
+
+  const { data } = await shadowPosApi.get<CategoriaResponse>(endpoint);
 
   return data;
 };

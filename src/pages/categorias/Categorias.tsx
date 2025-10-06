@@ -8,11 +8,15 @@ import type { FC } from "react";
 import CrearCategoria from "./CrearCategoria";
 import ActualizarCategoria from "./ActualizarCategoria";
 import useEliminarCategorias from "@/hooks/categorias/useEliminarCategorias";
+import { useCategoriasPaginacion } from "@/store/CategoriasPaginacion";
 
 interface CategoriasProps {}
 const Categorias: FC<CategoriasProps> = ({}) => {
-  const { data, error, isPending } = useObtenerCategorias();
   const { mutateAsync } = useEliminarCategorias();
+  const { pagination, setPagination } = useCategoriasPaginacion();
+  const { data, error, isPending } = useObtenerCategorias({
+    page:pagination.pageIndex +1
+  });
 
   if (isPending) return <Loader />;
 
@@ -44,6 +48,9 @@ const Categorias: FC<CategoriasProps> = ({}) => {
           </CustomModal>
 
           <DataTable
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.total_paginas}
             columns={columns}
             data={data?.categorias}
             title_property="nombre"

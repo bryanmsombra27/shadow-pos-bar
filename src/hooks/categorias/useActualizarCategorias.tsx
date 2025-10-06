@@ -1,5 +1,6 @@
 import { actualizarCategoria } from "@/actions/categorias";
 import type { CategoriaResponse } from "@/interfaces/categoria.interface";
+import { useCategoriasPaginacion } from "@/store/CategoriasPaginacion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -10,6 +11,7 @@ type BodyMutation = {
 
 const useActualizarCategorias = () => {
   const queryClient = useQueryClient();
+  const { pagination } = useCategoriasPaginacion();
 
   const { data, error, isPending, mutateAsync } = useMutation({
     mutationFn: ({ id, nombre }: BodyMutation) =>
@@ -18,7 +20,7 @@ const useActualizarCategorias = () => {
       toast.success(value.mensaje);
 
       await queryClient.setQueryData(
-        ["categorias"],
+        ["categorias", pagination],
         (state: CategoriaResponse) => {
           return value.categoria
             ? ({

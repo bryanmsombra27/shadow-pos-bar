@@ -1,5 +1,6 @@
 import { eliminarCategoria } from "@/actions/categorias";
 import type { CategoriaResponse } from "@/interfaces/categoria.interface";
+import { useCategoriasPaginacion } from "@/store/CategoriasPaginacion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -9,6 +10,7 @@ interface BodyMutation {
 
 const useEliminarCategorias = () => {
   const queryClient = useQueryClient();
+  const { pagination } = useCategoriasPaginacion();
 
   const { data, error, isPending, mutateAsync } = useMutation({
     mutationFn: ({ id }: BodyMutation) => eliminarCategoria(id),
@@ -16,12 +18,19 @@ const useEliminarCategorias = () => {
       toast.success(value.mensaje);
 
       await queryClient.setQueryData(
-        ["categorias"],
+        ["categorias", pagination],
         (state: CategoriaResponse) => {
+          const total_registros = state.total_registros - 1;
+          const paginaAnterior = Math.ceil(total_registros / 10);
+
           return value.categoria
             ? ({
                 ...state,
-                total_registros: state.total_registros - 1,
+                total_registros,
+                total_paginas:
+                  state.total_paginas == paginaAnterior
+                    ? state.total_paginas
+                    : paginaAnterior,
                 categorias: state.categorias.filter(
                   (categoria) => categoria.id != value.categoria.id
                 ),

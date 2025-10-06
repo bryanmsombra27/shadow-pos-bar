@@ -10,6 +10,7 @@ import Categorias from "./pages/categorias/Categorias";
 import Menu from "./components/public/Menu";
 import OrderDetails from "./pages/admin/ordenes/OrderDetails";
 import { RolPaginacionProvider } from "./store/rolPaginacion";
+import { CategoriasPaginacionProvider } from "./store/CategoriasPaginacion";
 
 export const appRouter = createBrowserRouter([
   {
@@ -53,7 +54,11 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "categorias",
-        element: <Categorias />,
+        element: (
+          <CategoriasPaginacionProvider>
+            <Categorias />
+          </CategoriasPaginacionProvider>
+        ),
       },
       {
         path: "ordenes",
