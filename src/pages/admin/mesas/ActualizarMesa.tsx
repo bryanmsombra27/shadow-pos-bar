@@ -2,7 +2,6 @@ import { ErrorMessage } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useActualizarMesa from "@/hooks/mesas/useActualizarMesa";
-import useRoles from "@/hooks/roles/useRoles";
 import type { ActualizarMesa, Mesa } from "@/interfaces/mesa.interface";
 import { type FC } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";

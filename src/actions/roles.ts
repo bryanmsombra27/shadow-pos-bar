@@ -1,12 +1,27 @@
 import { shadowPosApi } from "@/api/api";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 import type {
   RespuestaRole,
   Role,
   RolResponse,
 } from "@/interfaces/rol.interface";
 
-const obtenerRolesPaginados = async (): Promise<RolResponse> => {
-  const { data } = await shadowPosApi.get<RolResponse>("/rol");
+const obtenerRolesPaginados = async (
+  pagination?: Pagination
+): Promise<RolResponse> => {
+  let endpoint = "/rol";
+
+  if (pagination?.page && pagination.search) {
+    endpoint = endpoint.concat(
+      `?page=${pagination.page}&search=${pagination.search}`
+    );
+  } else if (pagination?.page) {
+    endpoint = endpoint.concat(`?page=${pagination.page}`);
+  } else if (pagination?.search) {
+    endpoint = endpoint.concat(`?search=${pagination?.search}`);
+  }
+
+  const { data } = await shadowPosApi.get<RolResponse>(endpoint);
 
   return data;
 };

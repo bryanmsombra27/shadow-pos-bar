@@ -20,11 +20,18 @@ const useEliminarMesa = (pagination?: Pagination) => {
       await queryClient.setQueryData(
         ["Mesas", pagination],
         (oldData: MesaResponse) => {
+          const total_registros = oldData.total_registros - 1;
+          const paginaAnterior = Math.ceil(total_registros / 10);
+
           return value.mesa
             ? {
                 ...oldData,
                 mesas: oldData.mesas.filter((mesa) => mesa.id != value.mesa.id),
-                total_registros: oldData.total_registros - 1,
+                total_registros,
+                total_paginas:
+                  oldData.total_paginas == paginaAnterior
+                    ? oldData.total_paginas
+                    : paginaAnterior,
               }
             : oldData;
         }

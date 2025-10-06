@@ -7,10 +7,12 @@ import type { FC } from "react";
 import CrearRol from "./CrearRol";
 import ActualizarRol from "./ActualizarRol";
 import useEliminarRol from "@/hooks/roles/useEliminarRol";
+import { useRolPaginacion } from "@/store/rolPaginacion";
 
 interface RolesProps {}
 const Roles: FC<RolesProps> = ({}) => {
   const { data, error, isPending } = useObtenerRoles();
+  const { pagination, setPagination } = useRolPaginacion();
   const { mutateAsync } = useEliminarRol();
 
   if (isPending) return <Loader />;
@@ -50,6 +52,9 @@ const Roles: FC<RolesProps> = ({}) => {
             title_property="nombre"
             columns={columns}
             data={data?.roles}
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.total_paginas}
           />
         </div>
       </>
