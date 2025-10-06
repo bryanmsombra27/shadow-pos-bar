@@ -20,11 +20,21 @@ const useCrearMesa = (pagination?: Pagination) => {
       await queryClient.setQueryData(
         ["Mesas", pagination],
         (oldData: MesaResponse) => {
+          const total_registros = oldData.total_registros + 1;
+          const paginaNueva = Math.ceil(total_registros / 10);
+
           return val.mesa
             ? ({
                 ...oldData,
-                total_registros: oldData.total_registros + 1,
-                mesas: [...oldData.mesas, val.mesa],
+                total_registros,
+                total_paginas:
+                  oldData.total_paginas == paginaNueva
+                    ? oldData.total_paginas
+                    : paginaNueva,
+                mesas:
+                  total_registros > 10
+                    ? [val.mesa, ...oldData.mesas.slice(0, 9)]
+                    : [val.mesa, ...oldData.mesas],
               } as MesaResponse)
             : oldData;
         }
