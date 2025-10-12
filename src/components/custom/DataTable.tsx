@@ -161,7 +161,7 @@ function DataTable<TData, TValue>({
             variant="outline"
             size="sm"
             onClick={() => {
-              console.log(table.getPageCount(), "PAGINA CUENTA");
+              // console.log(table.getPageCount(), "PAGINA CUENTA");
               table.nextPage();
             }}
             disabled={!table.getCanNextPage()}

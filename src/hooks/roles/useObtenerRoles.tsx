@@ -10,6 +10,7 @@ const useObtenerRoles = () => {
     queryFn: () =>
       obtenerRolesPaginados({
         page: pagination!.pageIndex + 1,
+        search: pagination.search,
       }),
   });
 

@@ -16,7 +16,8 @@ const SearchInput: FC<SearchInputProps> = ({ placeholder = "busqueda" }) => {
   const [_, setSearchParams] = useSearchParams();
 
   const hangleSearch = () => {
-    if (inputRef.current?.value && inputRef.current?.value.length <= 0) {
+    if (inputRef.current?.value.length! <= 0) {
+      inputRef.current!.value = "";
       urlSearch.delete("busqueda");
       setSearchParams(urlSearch);
       return;

@@ -1,21 +1,23 @@
-import { CustomModal, Loader } from "@/components/custom";
+import { CustomModal, Loader, SearchInput } from "@/components/custom";
 import DataTable from "@/components/custom/DataTable";
 import useObtenerRoles from "@/hooks/roles/useObtenerRoles";
 import type { Role } from "@/interfaces/rol.interface";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import CrearRol from "./CrearRol";
 import ActualizarRol from "./ActualizarRol";
 import useEliminarRol from "@/hooks/roles/useEliminarRol";
 import { useRolPaginacion } from "@/store/rolPaginacion";
+import { useSearchParams } from "react-router";
 
 interface RolesProps {}
 const Roles: FC<RolesProps> = ({}) => {
   const { data, error, isPending } = useObtenerRoles();
   const { pagination, setPagination } = useRolPaginacion();
   const { mutateAsync } = useEliminarRol();
+  const [searchParams, _] = useSearchParams();
 
-  if (isPending) return <Loader />;
+  // if (isPending) return <Loader />;
 
   if (error)
     return (
@@ -32,10 +34,34 @@ const Roles: FC<RolesProps> = ({}) => {
     },
   ];
 
+  useEffect(() => {
+    if (searchParams && searchParams.get("busqueda")) {
+      const search = searchParams.get("busqueda");
+
+      if (search!.length > 3) {
+        setPagination((prevState) => {
+          return {
+            ...prevState,
+            search: search!,
+          };
+        });
+      }
+    } else if (searchParams && !searchParams.get("busqueda")) {
+      setPagination((prevState) => {
+        return {
+          ...prevState,
+          search: "",
+        };
+      });
+    }
+  }, [searchParams]);
+
   return (
-    data && (
-      <>
-        <div className="container mx-auto p-6">
+    <>
+      <div className="container mx-auto p-6">
+        <div className="flex justify-between items-center mb-10">
+          <SearchInput placeholder="Buscar por rol" />
+
           <CustomModal
             triggerName="Agregar Rol"
             description="Crea un nuevo registro"
@@ -43,7 +69,11 @@ const Roles: FC<RolesProps> = ({}) => {
           >
             <CrearRol />
           </CustomModal>
+        </div>
 
+        {isPending ? (
+          <Loader />
+        ) : (
           <DataTable
             showActions
             delete_title="Esta seguro que desea eliminar el rol de"
@@ -51,14 +81,14 @@ const Roles: FC<RolesProps> = ({}) => {
             edit_component={(row) => <ActualizarRol rol={row.original} />}
             title_property="nombre"
             columns={columns}
-            data={data?.roles}
+            data={data?.roles!}
             pagination={pagination}
             setPagination={setPagination}
-            totalPages={data.total_paginas}
+            totalPages={data!.total_paginas}
           />
-        </div>
-      </>
-    )
+        )}
+      </div>
+    </>
   );
 };
 

@@ -20,6 +20,7 @@ export const RolPaginacionProvider = ({ children }: rolPaginacionProvider) => {
   const [pagination, setPagination] = useState<ReactTablePagination>({
     pageIndex: 0,
     pageSize: 10,
+    search: "",
   });
 
   return (
