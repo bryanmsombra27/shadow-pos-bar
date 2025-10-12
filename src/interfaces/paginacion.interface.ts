@@ -1,6 +1,7 @@
 export interface ReactTablePagination {
   pageIndex: number;
   pageSize: number;
+  search?: string;
 }
 
 export interface Pagination {

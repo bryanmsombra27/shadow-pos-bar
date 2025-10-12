@@ -32,7 +32,7 @@ const CustomModal: FC<CustomModalProps> = ({
       {isManualTrigger ? (
         <DialogTrigger>{trigger}</DialogTrigger>
       ) : (
-        <div className="flex mb-10 justify-end">
+        <div className="flex  justify-end">
           <>
             <DialogTrigger className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white cursor-pointer">
               <FiPlusCircle />

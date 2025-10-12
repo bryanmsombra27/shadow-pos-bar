@@ -1,33 +1,53 @@
-import { CustomModal, Loader } from "@/components/custom";
+import { CustomModal, Loader, SearchInput } from "@/components/custom";
 import DataTable from "@/components/custom/DataTable";
 import useObtenerMesas from "@/hooks/mesas/useObtenerMesas";
 import type { Mesa } from "@/interfaces/mesa.interface";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 
 import CrearMesa from "./CrearMesa";
 import ActualizarMesaForm from "./ActualizarMesa";
 import useEliminarMesa from "@/hooks/mesas/useEliminarMesa";
 import type { ReactTablePagination } from "@/interfaces/paginacion.interface";
+import { useSearchParams } from "react-router";
 
 interface MesasProps {}
 const Mesas: FC<MesasProps> = ({}) => {
+  const [searchParams, _] = useSearchParams();
+
   const [pagination, setPagination] = useState<ReactTablePagination>({
     pageIndex: 0,
     pageSize: 10,
+    search: "",
   });
 
   const currentPage = pagination.pageIndex + 1;
 
   const { data, error, isPending } = useObtenerMesas({
     page: currentPage,
+    search: pagination.search,
   });
   const { mutateAsync } = useEliminarMesa({
     page: currentPage,
   });
 
-  if (isPending) return <Loader />;
+  useEffect(() => {
+    if (searchParams && searchParams.get("busqueda")) {
+      const busqueda = searchParams.get("busqueda") || "";
+
+      if (busqueda.length > 3) {
+        setPagination((prevState) => {
+          return {
+            ...prevState,
+            search: busqueda,
+          };
+        });
+      }
+    }
+  }, [searchParams]);
+
+  // if (isPending) return <Loader />;
 
   if (error)
     return (
@@ -57,9 +77,10 @@ const Mesas: FC<MesasProps> = ({}) => {
   ];
 
   return (
-    data && (
-      <>
-        <div className="container mx-auto p-6">
+    <>
+      <div className="container mx-auto p-6">
+        <div className="flex justify-between items-center mb-10">
+          <SearchInput placeholder="Buscar por Nombre,Mesero" />
           <CustomModal
             triggerName="Agregar Mesa"
             description="Crea un nuevo registro"
@@ -67,7 +88,10 @@ const Mesas: FC<MesasProps> = ({}) => {
           >
             <CrearMesa page={currentPage} />
           </CustomModal>
-
+        </div>
+        {isPending ? (
+          <Loader />
+        ) : (
           <DataTable
             showActions
             delete_title="Esta seguro que desea eliminar la mesa"
@@ -80,14 +104,14 @@ const Mesas: FC<MesasProps> = ({}) => {
             )}
             title_property="nombre"
             columns={columns}
-            data={data?.mesas}
+            data={data?.mesas!}
             pagination={pagination}
             setPagination={setPagination}
-            totalPages={data.total_paginas}
+            totalPages={data!.total_paginas}
           />
-        </div>
-      </>
-    )
+        )}
+      </div>
+    </>
   );
 };
 
