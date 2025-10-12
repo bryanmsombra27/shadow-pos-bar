@@ -10,6 +10,7 @@ const useObtenerUsuarios = () => {
     queryFn: () =>
       obtenerUsuarios({
         page: pagination.pageIndex + 1,
+        search: pagination.search,
       }),
   });
 

@@ -22,6 +22,7 @@ export const UsuariosPaginacionProvider = ({
   const [pagination, setPagination] = useState<ReactTablePagination>({
     pageIndex: 0,
     pageSize: 10,
+    search: "",
   });
 
   return (

@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import useObtenerOrdenPorMesa from "@/hooks/ordenes/useObtenerOrdenPorMesa";
 import type { Pedido } from "@/interfaces/orden.interface";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { useNavigate, useParams } from "react-router";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import useCompletarOrden from "@/hooks/ordenes/useCompletarOrden";
+import type { ReactTablePagination } from "@/interfaces/paginacion.interface";
 
 interface OrderDetailsProps {}
 const OrderDetails: FC<OrderDetailsProps> = ({}) => {
@@ -16,6 +17,11 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
   const { isPending: isCompleteOrderPending, mutateAsync } =
     useCompletarOrden();
   const navigate = useNavigate();
+  const [pagination, setPagination] = useState<ReactTablePagination>({
+    pageIndex: 0,
+    pageSize: 10,
+    search: "",
+  });
 
   const completarOrden = async () => {
     await mutateAsync(data?.orden.id!);
@@ -76,6 +82,9 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
             showActions={false}
             columns={columns}
             data={data?.orden.pedidos}
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPages={data.orden.pedidos.length}
           />
 
           <div className="flex justify-end items-center px-10 mt-10 gap-10">

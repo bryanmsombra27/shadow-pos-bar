@@ -9,6 +9,7 @@ const useObtenerProductos = () => {
     queryFn: () =>
       obtenerProductos({
         page: pagination.pageIndex + 1,
+        search: pagination.search,
       }),
     queryKey: ["productos", pagination],
   });

@@ -9,6 +9,7 @@ const useObtenerCategorias = () => {
     queryFn: () =>
       obtenerCategorias({
         page: pagination?.pageIndex + 1,
+        search: pagination.search,
       }),
     queryKey: ["categorias", pagination],
   });
