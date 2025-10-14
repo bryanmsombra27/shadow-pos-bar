@@ -12,9 +12,16 @@ import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { SidebarTrigger } from "../ui/sidebar";
+import useLogOut from "@/hooks/auth/useLogOut";
 
 interface TopBarProps {}
 const TopBar: FC<TopBarProps> = ({}) => {
+  const { mutateAsync, isPending } = useLogOut();
+
+  const handleLogOut = async () => {
+    await mutateAsync();
+  };
+
   return (
     <div className="flex items-center justify-between p-6 border-b bg-background">
       <div className="flex items-center gap-4 flex-1 max-w-md">
@@ -98,7 +105,7 @@ const TopBar: FC<TopBarProps> = ({}) => {
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

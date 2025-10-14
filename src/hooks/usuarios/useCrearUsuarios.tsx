@@ -10,7 +10,6 @@ const useCrearUsuarios = () => {
 
   const { data, error, isPending, mutateAsync } = useMutation({
     mutationFn: crearUsuario,
-    mutationKey: ["crear-usuarios"],
     onSuccess: async (value) => {
       toast.success(value.mensaje);
 

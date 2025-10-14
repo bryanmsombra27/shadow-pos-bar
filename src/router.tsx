@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import AdminLayout from "./layout/AdminLayout";
 import Home from "./pages/admin/home/Home";
 import Mesas from "./pages/admin/mesas/Mesas";
@@ -13,12 +13,25 @@ import { RolPaginacionProvider } from "./store/rolPaginacion";
 import { CategoriasPaginacionProvider } from "./store/CategoriasPaginacion";
 import { UsuariosPaginacionProvider } from "./store/UsuariosPaginacion";
 import { ProductosPaginacionProvider } from "./store/ProductosPaginacion";
+import Login from "./pages/auth/Login";
+import RedirectionByRolWrapper from "./layout/RedirectionByRolWrapper";
+import ProtectedRoutes from "./pages/ProtectedRoutes";
 
 export const appRouter = createBrowserRouter([
   {
     path: "",
     index: true,
-    element: <MesasPublic />,
+    // element: <MesasPublic />,
+    element: <RedirectionByRolWrapper />,
+  },
+  {
+    path: "auth",
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
   },
   {
     path: "menu",
@@ -26,7 +39,11 @@ export const appRouter = createBrowserRouter([
   },
   {
     path: "admin",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoutes>
+        <AdminLayout />
+      </ProtectedRoutes>
+    ),
     children: [
       {
         index: true,
@@ -72,12 +89,21 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "ordenes",
-        element: <MesasPublic isAdmin />,
+        element: <MesasPublic />,
       },
       {
         path: "orden/:id",
         element: <OrderDetails />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: (
+      <Navigate
+        to="/auth/login"
+        replace
+      />
+    ),
   },
 ]);

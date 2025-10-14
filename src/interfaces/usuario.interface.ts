@@ -22,3 +22,7 @@ export interface RespuestaUsuario {
   mensaje: string;
   usuario: Usuario;
 }
+export interface RespuestaLogin {
+  mensaje: string;
+  token: string;
+}

@@ -27,7 +27,6 @@ const Mesas: FC<MesasProps> = ({ isAdmin }) => {
             <TableClient
               mesa={mesa}
               key={mesa.id}
-              isAdmin={isAdmin}
             />
           ))}
       </div>
