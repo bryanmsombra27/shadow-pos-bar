@@ -10,14 +10,18 @@ const RedirectionByRolWrapper: FC<RedirectionByRolWrapperProps> = ({}) => {
 
   if (isPending) return <Loader />;
 
-  return data && data.rol.nombre.toLowerCase() == "mesero" ? (
-    <MesasPublic />
-  ) : (
-    <Navigate
-      to="/admin"
-      replace
-    />
-  );
+  if (data && data.rol.nombre.toLowerCase() == "mesero") {
+    return <MesasPublic />;
+  }
+
+  if (data && data.rol.nombre == "admin") {
+    return (
+      <Navigate
+        to="/admin"
+        replace
+      />
+    );
+  }
 };
 
 export default RedirectionByRolWrapper;

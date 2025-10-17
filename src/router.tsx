@@ -21,6 +21,7 @@ export const appRouter = createBrowserRouter([
   {
     path: "",
     index: true,
+
     // element: <MesasPublic />,
     element: <RedirectionByRolWrapper />,
   },

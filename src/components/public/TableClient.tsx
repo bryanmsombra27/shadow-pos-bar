@@ -76,23 +76,27 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
 
       {estadoMesa(mesa.estado_actual)}
 
-      {!mesa.mesero && mesa.estado_actual == "DISPONIBLE" && (
-        <Button
-          className="mt-3"
-          onClick={tomarMesa}
-        >
-          Tomar Mesa
-        </Button>
-      )}
+      {!mesa.mesero &&
+        mesa.estado_actual == "DISPONIBLE" &&
+        data!.rol.nombre.toLowerCase() == "mesero" && (
+          <Button
+            className="mt-3"
+            onClick={tomarMesa}
+          >
+            Tomar Mesa
+          </Button>
+        )}
 
-      {data && data!.rol.nombre.toLowerCase() == "admin" && (
-        <Button
-          className="mt-3"
-          onClick={() => navigate(`/admin/orden/${mesa.id}`)}
-        >
-          Ver Orden
-        </Button>
-      )}
+      {data &&
+        data!.rol.nombre.toLowerCase() == "admin" &&
+        mesa.estado_actual == "OCUPADO" && (
+          <Button
+            className="mt-3"
+            onClick={() => navigate(`/admin/orden/${mesa.id}`)}
+          >
+            Ver Orden
+          </Button>
+        )}
     </div>
   );
 };

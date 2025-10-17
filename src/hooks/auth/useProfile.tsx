@@ -8,7 +8,7 @@ const useProfile = () => {
   const { token } = useTokenStore();
   const { handleError } = useHandleErrors();
 
-  const { data, error, isPending } = useQuery({
+  const { data, error, isPending, isFetching } = useQuery({
     queryFn: profile,
     queryKey: ["perfil"],
     enabled: !!token,
@@ -24,6 +24,7 @@ const useProfile = () => {
     data,
     error,
     isPending,
+    isFetching,
   };
 };
 export default useProfile;

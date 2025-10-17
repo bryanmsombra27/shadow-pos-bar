@@ -7,12 +7,18 @@ import { toast } from "sonner";
 const useLogOut = () => {
   const { setToken } = useTokenStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data, error, isPending, mutateAsync } = useMutation({
     mutationFn: logout,
     onSuccess: async (value) => {
       toast.success(value.mensaje);
       setToken("");
+
+      queryClient.removeQueries({
+        queryKey: ["profile"],
+      });
+
       navigate("/auth/login");
     },
     onError: () => {
