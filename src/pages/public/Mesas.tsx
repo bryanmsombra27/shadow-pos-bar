@@ -6,11 +6,84 @@ import useProfile from "@/hooks/auth/useProfile";
 import useTodasLasMesas from "@/hooks/mesas/useTodasLasMesas";
 import { LogOutIcon } from "lucide-react";
 import type { FC } from "react";
+import { socket } from "@/config/socket";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import type { Mesa, TodasLasMesas } from "@/interfaces/mesa.interface";
+
 interface MesasProps {}
 const Mesas: FC<MesasProps> = ({}) => {
   const { data, error, isPending } = useTodasLasMesas();
   const { data: profile, isPending: isProfilePending } = useProfile();
   const { mutateAsync, isPending: isLogoutPending } = useLogOut();
+  const queryclient = useQueryClient();
+
+  useEffect(() => {
+    const handleTable = async (mesa: Mesa) => {
+      console.log(mesa, "INFO DE SOCKET SERVER");
+
+      // await queryclient.setQueryData(
+      //   ["todas-mesas"],
+      //   (prevState: TodasLasMesas) =>
+      //     mesa
+      //       ? prevState.mesas?.map((item) => {
+      //           if (item.id == mesa.id) {
+      //             return mesa;
+      //           }
+
+      //           return item;
+      //         })
+      //       : prevState
+      // );
+      await queryclient.setQueryData(
+        ["todas-mesas"],
+        // (prevState: { mesas: TodasLasMesas }) => {
+        (prevState: any) => {
+          console.log(prevState, "estado previo");
+          // console.log(prevState.mesas.mesas, "estado previo");
+
+          // return mesa
+          //   ? prevState.mesas.mesas.map((item) => {
+          //       console.log(item, "mesa iterada");
+          //       if (item.id == mesa.id) {
+          //         console.log("debe entrar ");
+          //         return mesa;
+          //       }
+
+          //       return item;
+          //     })
+          //   : prevState;
+
+          if (mesa) {
+            console.log("DEBE ENTRAR AQUI DE AWEBO");
+            console.log(prevState.mesas, "ESTADO PREVIO ENTRANDO");
+            const mesas = prevState.mesas.map((item: any) => {
+              console.log(item, "mesa iterada");
+              if (item.id == mesa.id) {
+                console.log("debe entrar ");
+                return mesa;
+              }
+
+              return item;
+            });
+            return {
+              mesas,
+            };
+          } else {
+            return prevState;
+          }
+        }
+      );
+    };
+
+    if (socket) {
+      socket.on("mesa", handleTable);
+    }
+
+    return () => {
+      socket.off("mesa", handleTable);
+    };
+  }, [socket]);
 
   const handleLogOut = async () => {
     await mutateAsync();

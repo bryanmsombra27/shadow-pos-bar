@@ -1,5 +1,5 @@
 import type { Mesa } from "@/interfaces/mesa.interface";
-import type { FC } from "react";
+import { type FC } from "react";
 import { PiPicnicTableBold } from "react-icons/pi";
 import { Button } from "../ui/button";
 import useActualizarEstadoMesa from "@/hooks/mesas/useActualizarEstadoMesa";
@@ -7,8 +7,8 @@ import { useMesaStore } from "@/store/mesa";
 import { useNavigate } from "react-router";
 import useProfile from "@/hooks/auth/useProfile";
 
-const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
-const admin_id = "9b22e543-1787-404c-9925-099c2eb76de6";
+// const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
+// const admin_id = "9b22e543-1787-404c-9925-099c2eb76de6";
 
 interface TableClientProps {
   mesa: Mesa;
