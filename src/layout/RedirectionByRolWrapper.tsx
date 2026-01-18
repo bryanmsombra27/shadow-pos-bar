@@ -8,6 +8,9 @@ interface RedirectionByRolWrapperProps {}
 const RedirectionByRolWrapper: FC<RedirectionByRolWrapperProps> = ({}) => {
   const { data, error, isPending } = useProfile();
 
+  console.log(error, "error");
+  console.log(data);
+
   if (isPending) return <Loader />;
 
   if (data && data.rol.nombre.toLowerCase() == "mesero") {
