@@ -16,7 +16,7 @@ const useLogOut = () => {
       setToken("");
 
       queryClient.removeQueries({
-        queryKey: ["profile"],
+        queryKey: ["perfil"],
       });
 
       navigate("/auth/login");
