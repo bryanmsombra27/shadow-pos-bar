@@ -15,6 +15,7 @@ interface CrearMesaProps {
 const CrearMesa: FC<CrearMesaProps> = ({ page }) => {
   const { isPending, mutateAsync } = useCrearMesa({
     page,
+    search: "",
   });
 
   const {

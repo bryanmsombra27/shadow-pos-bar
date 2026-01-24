@@ -6,8 +6,7 @@ import { Loader } from "../custom";
 import { useMenuStore } from "@/store/menu";
 import useCrearOrden from "@/hooks/ordenes/useCrearOrden";
 import { useMesaStore } from "@/store/mesa";
-
-const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
+import useProfile from "@/hooks/auth/useProfile";
 
 interface MenuProps {}
 const Menu: FC<MenuProps> = ({}) => {
@@ -15,10 +14,15 @@ const Menu: FC<MenuProps> = ({}) => {
   const { pedidos, clearPerdidos } = useMenuStore();
   const { mesa_id, setMesa } = useMesaStore();
   const { isPending: isOrderPending, mutateAsync } = useCrearOrden();
+  const {
+    data: profileData,
+    error: profileError,
+    isPending: profileIsPending,
+  } = useProfile();
 
   const handleOrder = async () => {
     await mutateAsync({
-      mesero_id,
+      mesero_id: profileData!.id,
       productos: pedidos,
       mesa_id,
     });
@@ -27,9 +31,9 @@ const Menu: FC<MenuProps> = ({}) => {
     setMesa("");
   };
 
-  if (isPending) return <Loader />;
+  if (isPending || profileIsPending) return <Loader />;
 
-  if (error)
+  if (error || profileError)
     return (
       <span className="text-red-600 border-2 p-4 rounded-xl">
         No fue posible obtener los productos
