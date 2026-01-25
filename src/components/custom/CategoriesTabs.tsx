@@ -1,7 +1,9 @@
 import type { Categoria } from "@/interfaces/categoria.interface";
 import { useProductosPaginacion } from "@/store/ProductosPaginacion";
 
-import type { FC, ReactNode } from "react";
+import { useEffect, type FC, type ReactNode } from "react";
+import SearchInput from "./SearchInput";
+import { useSearchParams } from "react-router";
 
 interface TabsProps {
   categories: Categoria[];
@@ -10,6 +12,31 @@ interface TabsProps {
 
 const CategoriesTabs: FC<TabsProps> = ({ categories, children }) => {
   const { setPagination, pagination } = useProductosPaginacion();
+  const [searchParams, _] = useSearchParams();
+
+  // if (isPending) return <Loader />;
+
+  useEffect(() => {
+    if (searchParams && searchParams.get("busqueda")) {
+      const search = searchParams.get("busqueda");
+
+      if (search!.length > 3) {
+        setPagination((prevState) => {
+          return {
+            ...prevState,
+            search: search!,
+          };
+        });
+      }
+    } else if (searchParams && !searchParams.get("busqueda")) {
+      setPagination((prevState) => {
+        return {
+          ...prevState,
+          search: "",
+        };
+      });
+    }
+  }, [searchParams]);
 
   const categorySelected = (id: string, category: string) => {
     const buttons = document.querySelectorAll(".category");
@@ -22,9 +49,31 @@ const CategoriesTabs: FC<TabsProps> = ({ categories, children }) => {
     }));
   };
 
+  const cleanSearch = () => {
+    searchParams.delete("busqueda");
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        search: "",
+      };
+    });
+  };
+
   return (
     <div>
-      <div className=" items-center   rounded-2xl p-3 gap-5 inline-flex mb-5">
+      <div className="flex gap-5 items-center">
+        <SearchInput placeholder="Buscar por nombre" />
+        {pagination.search && (
+          <button
+            className="py-3 px-3 rounded-2xl bg-blue-600 cursor-pointer text-white"
+            onClick={cleanSearch}
+          >
+            Limpiar busqueda
+          </button>
+        )}
+      </div>
+
+      <div className=" items-center   rounded-2xl p-3 gap-5 inline-flex my-5">
         <button
           key={"todas"}
           id={"todas"}

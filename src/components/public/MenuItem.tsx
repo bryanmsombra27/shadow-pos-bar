@@ -8,11 +8,10 @@ interface MenuItemProps {
   producto_eliminado: string;
 }
 const MenuItem: FC<MenuItemProps> = ({ producto, producto_eliminado }) => {
-  const { setPedido, pedidos } = useMenuStore();
+  const { setPedido } = useMenuStore();
   const [counter, setCounter] = useState<number>(0);
 
   useEffect(() => {
-    console.log(producto_eliminado, "se fue");
     if (producto.id == producto_eliminado) {
       setCounter(0);
     }

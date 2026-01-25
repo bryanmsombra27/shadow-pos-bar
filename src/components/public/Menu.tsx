@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
 import MenuItem from "./MenuItem";
 import { Button } from "../ui/button";
-import { CategoriesTabs, Loader, TabsComponent } from "../custom";
+import { CategoriesTabs, Loader } from "../custom";
 import { useMenuStore } from "@/store/menu";
 import useCrearOrden from "@/hooks/ordenes/useCrearOrden";
 import { useMesaStore } from "@/store/mesa";
@@ -45,7 +45,7 @@ const Menu: FC<MenuProps> = ({}) => {
     setMesa("");
   };
 
-  if (profileIsPending) return <Loader />;
+  if (profileIsPending || categoriasPending) return <Loader />;
 
   if (error || profileError || categoriasError)
     return (
