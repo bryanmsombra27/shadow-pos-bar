@@ -4,6 +4,7 @@ interface MenuItem {
   producto_id: string;
   cantidad: number;
   precio: number;
+  nombre: string;
 }
 
 interface InitialState {
@@ -11,19 +12,30 @@ interface InitialState {
 }
 
 interface Actions {
-  setPedido: (productId: string, qty: number, price: number) => void;
+  setPedido: (
+    productId: string,
+    qty: number,
+    price: number,
+    nombre: string,
+  ) => void;
   clearPerdidos: () => void;
+  removePedido: (id: string) => void;
 }
 
 type State = InitialState & Actions;
 
 export const useMenuStore = create<State>()((set, get) => ({
   pedidos: [],
-  setPedido: (productId: string, qty: number, price: number) => {
+  setPedido: (
+    productId: string,
+    qty: number,
+    price: number,
+    nombre: string,
+  ) => {
     set((prevState) => {
       // const alreadyInCart = prevState.pedidos.find()
       const index = prevState.pedidos.findIndex(
-        (pedido) => pedido.producto_id == productId
+        (pedido) => pedido.producto_id == productId,
       );
 
       let newPedidos = [];
@@ -42,13 +54,13 @@ export const useMenuStore = create<State>()((set, get) => ({
 
         if (qty == 0) {
           newPedidos = prevState.pedidos.filter(
-            (pedido) => pedido.producto_id != productId
+            (pedido) => pedido.producto_id != productId,
           );
         }
       } else {
         newPedidos = [
           ...prevState.pedidos,
-          { cantidad: qty, producto_id: productId, precio: price },
+          { cantidad: qty, producto_id: productId, precio: price, nombre },
         ];
       }
 
@@ -60,6 +72,17 @@ export const useMenuStore = create<State>()((set, get) => ({
   clearPerdidos: () => {
     set({
       pedidos: [],
+    });
+  },
+  removePedido: (id) => {
+    set((prevState) => {
+      const newOrders = prevState.pedidos.filter(
+        (pedido) => pedido.producto_id !== id,
+      );
+
+      return {
+        pedidos: newOrders,
+      };
     });
   },
 }));

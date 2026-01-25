@@ -117,4 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .btn {
+    @apply bg-black text-white rounded-2xl py-3 px-2;
+  }
 }

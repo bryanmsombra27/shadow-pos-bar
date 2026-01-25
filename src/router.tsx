@@ -36,7 +36,11 @@ export const appRouter = createBrowserRouter([
   },
   {
     path: "menu",
-    element: <Menu />,
+    element: (
+      <ProductosPaginacionProvider>
+        <Menu />
+      </ProductosPaginacionProvider>
+    ),
   },
   {
     path: "admin",

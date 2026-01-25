@@ -14,6 +14,7 @@ const useObtenerProductos = () => {
       obtenerProductos({
         page: pagination.pageIndex + 1,
         search: pagination.search,
+        category: pagination.category,
       }),
     queryKey: ["productos", pagination],
     throwOnError(error: AppError, _) {

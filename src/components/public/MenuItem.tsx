@@ -1,29 +1,37 @@
 import type { Producto } from "@/interfaces/producto.interface";
 import { useMenuStore } from "@/store/menu";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 interface MenuItemProps {
   producto: Producto;
+  producto_eliminado: string;
 }
-const MenuItem: FC<MenuItemProps> = ({ producto }) => {
+const MenuItem: FC<MenuItemProps> = ({ producto, producto_eliminado }) => {
+  const { setPedido, pedidos } = useMenuStore();
   const [counter, setCounter] = useState<number>(0);
-  const { setPedido } = useMenuStore();
+
+  useEffect(() => {
+    console.log(producto_eliminado, "se fue");
+    if (producto.id == producto_eliminado) {
+      setCounter(0);
+    }
+  }, [producto_eliminado]);
 
   const handleMinusCounter = () => {
     if (counter > 0) {
       setCounter((prevState) => prevState - 1);
-      setPedido(producto.id, -1, producto.precio);
+      setPedido(producto.id, -1, producto.precio, producto.nombre);
     }
   };
 
   const handleAddCounter = () => {
     setCounter((prevState) => prevState + 1);
-    setPedido(producto.id, 1, producto.precio);
+    setPedido(producto.id, 1, producto.precio, producto.nombre);
   };
 
   return (
-    <div className="flex gap-20 mt-10">
+    <div className="flex flex-col justify-center items-center  gap-2">
       <img
         src={`http://localhost:3000/images${producto.imagen}`}
         alt={`${producto.imagen}`}
@@ -31,7 +39,7 @@ const MenuItem: FC<MenuItemProps> = ({ producto }) => {
       />
       <div>
         <h4 className=" text-lg"> {producto.nombre} </h4>
-        <div className="flex items-center gap-4 mt-5">
+        <div className="flex items-center justify-center gap-4 ">
           <button
             type="button"
             className="bg-gray-200 p-3 rounded-2xl cursor-pointer"

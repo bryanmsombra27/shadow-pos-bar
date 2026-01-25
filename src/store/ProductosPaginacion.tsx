@@ -7,9 +7,11 @@ import {
   type Dispatch,
 } from "react";
 
+type ProductPagination = ReactTablePagination & { category?: string };
+
 interface ProductosPaginacion {
-  setPagination: Dispatch<React.SetStateAction<ReactTablePagination>>;
-  pagination: ReactTablePagination;
+  setPagination: Dispatch<React.SetStateAction<ProductPagination>>;
+  pagination: ProductPagination;
 }
 interface ProductosPaginacionProvider {
   children: ReactNode;
@@ -19,10 +21,11 @@ const ProductosPaginacion = createContext<ProductosPaginacion | null>(null);
 export const ProductosPaginacionProvider = ({
   children,
 }: ProductosPaginacionProvider) => {
-  const [pagination, setPagination] = useState<ReactTablePagination>({
+  const [pagination, setPagination] = useState<ProductPagination>({
     pageIndex: 0,
     pageSize: 10,
     search: "",
+    category: "",
   });
 
   return (

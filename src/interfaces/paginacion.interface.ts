@@ -9,3 +9,7 @@ export interface Pagination {
   limit?: number;
   search?: string;
 }
+
+export interface ProductoPagination extends Pagination {
+  category?: string;
+}
