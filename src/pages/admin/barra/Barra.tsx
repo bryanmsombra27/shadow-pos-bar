@@ -1,4 +1,5 @@
 import { Loader } from "@/components/custom";
+import useCompletarOrdenBarra from "@/hooks/barra/useCompletarOrdenBarra";
 import useObtenerOrdenesBarra from "@/hooks/barra/useObtenerOrdenesBarra";
 import type { FC } from "react";
 import { FaCheckCircle } from "react-icons/fa";
@@ -6,6 +7,11 @@ import { FaCheckCircle } from "react-icons/fa";
 interface BarraProps {}
 const Barra: FC<BarraProps> = ({}) => {
   const { data, error, isPending } = useObtenerOrdenesBarra();
+  const { mutateAsync } = useCompletarOrdenBarra();
+
+  const handleCompleteOrder = async (id: string) => {
+    await mutateAsync(id);
+  };
 
   if (isPending) return <Loader />;
 
@@ -45,7 +51,12 @@ const Barra: FC<BarraProps> = ({}) => {
               ))}
             </ul>
 
-            <button className="bg-green-600 p-3 rounded-xl text-white font-bold mt-10 mx-auto block">
+            <span className="text-2xl">{orden.estado_orden}</span>
+
+            <button
+              className="bg-green-600 p-3 rounded-xl text-white font-bold mt-10 mx-auto block cursor-pointer"
+              onClick={() => handleCompleteOrder(orden.id)}
+            >
               Completar Orden
             </button>
           </div>

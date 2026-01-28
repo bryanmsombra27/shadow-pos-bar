@@ -1,5 +1,8 @@
 import { shadowPosApi } from "@/api/api";
-import type { BarraResponse } from "@/interfaces/barra";
+import type {
+  BarraOrdenStatusResponse,
+  BarraResponse,
+} from "@/interfaces/barra";
 
 const obtenerOrdenesParaBarra = async (): Promise<BarraResponse> => {
   const { data } = await shadowPosApi.get<BarraResponse>("/orden/barra");
@@ -7,4 +10,14 @@ const obtenerOrdenesParaBarra = async (): Promise<BarraResponse> => {
   return data;
 };
 
-export { obtenerOrdenesParaBarra };
+const ordenCompletadaBarra = async (
+  id: string,
+): Promise<BarraOrdenStatusResponse> => {
+  const { data } = await shadowPosApi.patch<BarraOrdenStatusResponse>(
+    `/orden/preparada/${id}`,
+  );
+
+  return data;
+};
+
+export { obtenerOrdenesParaBarra, ordenCompletadaBarra };

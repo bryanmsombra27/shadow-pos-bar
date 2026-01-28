@@ -3,6 +3,11 @@ export interface BarraResponse {
   ordenes: Orden[];
 }
 
+export interface BarraOrdenStatusResponse {
+  mensaje: string;
+  orden: Orden;
+}
+
 interface Orden {
   id: string;
   mesero_id: string;
