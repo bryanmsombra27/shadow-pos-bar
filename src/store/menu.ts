@@ -5,6 +5,7 @@ interface MenuItem {
   cantidad: number;
   precio: number;
   nombre: string;
+  categoria: string;
 }
 
 interface InitialState {
@@ -17,6 +18,7 @@ interface Actions {
     qty: number,
     price: number,
     nombre: string,
+    categoria: string,
   ) => void;
   clearPerdidos: () => void;
   removePedido: (id: string) => void;
@@ -31,6 +33,7 @@ export const useMenuStore = create<State>()((set, get) => ({
     qty: number,
     price: number,
     nombre: string,
+    categoria: string,
   ) => {
     set((prevState) => {
       // const alreadyInCart = prevState.pedidos.find()
@@ -60,7 +63,13 @@ export const useMenuStore = create<State>()((set, get) => ({
       } else {
         newPedidos = [
           ...prevState.pedidos,
-          { cantidad: qty, producto_id: productId, precio: price, nombre },
+          {
+            cantidad: qty,
+            producto_id: productId,
+            precio: price,
+            nombre,
+            categoria,
+          },
         ];
       }
 

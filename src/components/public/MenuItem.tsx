@@ -20,13 +20,25 @@ const MenuItem: FC<MenuItemProps> = ({ producto, producto_eliminado }) => {
   const handleMinusCounter = () => {
     if (counter > 0) {
       setCounter((prevState) => prevState - 1);
-      setPedido(producto.id, -1, producto.precio, producto.nombre);
+      setPedido(
+        producto.id,
+        -1,
+        producto.precio,
+        producto.nombre,
+        producto.categoria.nombre,
+      );
     }
   };
 
   const handleAddCounter = () => {
     setCounter((prevState) => prevState + 1);
-    setPedido(producto.id, 1, producto.precio, producto.nombre);
+    setPedido(
+      producto.id,
+      1,
+      producto.precio,
+      producto.nombre,
+      producto.categoria.nombre,
+    );
   };
 
   return (

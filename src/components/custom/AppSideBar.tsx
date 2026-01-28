@@ -55,6 +55,11 @@ const menuItems = [
     url: "categorias",
     icon: Settings,
   },
+  {
+    title: "Ordenes Pendientes",
+    url: "barra",
+    icon: Settings,
+  },
 ];
 
 interface AppSideBarProps {}

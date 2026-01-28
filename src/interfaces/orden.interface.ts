@@ -10,6 +10,7 @@ interface PedidoPorOrden {
   cantidad: number;
   precio: number;
   producto_id: string;
+  para_barra: boolean;
 }
 export interface OrdenPorMesa {
   mensaje: string;

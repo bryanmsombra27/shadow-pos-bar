@@ -16,6 +16,7 @@ import { ProductosPaginacionProvider } from "./store/ProductosPaginacion";
 import Login from "./pages/auth/Login";
 import RedirectionByRolWrapper from "./layout/RedirectionByRolWrapper";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
+import Barra from "./pages/admin/barra/Barra";
 
 export const appRouter = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "mesas",
         element: <Mesas />,
+      },
+      {
+        path: "barra",
+        element: <Barra />,
       },
       {
         path: "roles",

@@ -37,6 +37,9 @@ const Menu: FC<MenuProps> = ({}) => {
         cantidad: pedido.cantidad,
         precio: pedido.precio,
         producto_id: pedido.producto_id,
+        para_barra: ["bebidas", "cerveza", "bebida", "agua"].some(
+          (category) => category == pedido.categoria,
+        ),
       })),
       mesa_id,
     });
