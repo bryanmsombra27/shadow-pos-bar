@@ -28,6 +28,7 @@ interface Mesero {
 }
 
 interface Pedido {
+  id: string;
   cantidad: number;
   comentarios: null;
   preparado: boolean;

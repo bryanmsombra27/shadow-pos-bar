@@ -36,3 +36,18 @@ export interface Pedido {
   precio: number;
   producto: Pick<Producto, "id" | "nombre">;
 }
+interface PedidoCompletado {
+  id: string;
+  cantidad: number;
+  precio: number;
+  comentarios: string | null;
+  producto_id: string;
+  orden_id: string;
+  para_barra: boolean;
+  preparado: boolean;
+}
+
+export interface PedidoCompletadoResponse {
+  mensaje: string;
+  pedido: PedidoCompletado;
+}

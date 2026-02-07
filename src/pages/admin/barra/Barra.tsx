@@ -1,6 +1,7 @@
 import { Loader } from "@/components/custom";
 import useCompletarOrdenBarra from "@/hooks/barra/useCompletarOrdenBarra";
 import useObtenerOrdenesBarra from "@/hooks/barra/useObtenerOrdenesBarra";
+import useCompletarPedidoDeOrden from "@/hooks/ordenes/useCompletarPedidoDeOrden";
 import type { FC } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -8,9 +9,15 @@ interface BarraProps {}
 const Barra: FC<BarraProps> = ({}) => {
   const { data, error, isPending } = useObtenerOrdenesBarra();
   const { mutateAsync } = useCompletarOrdenBarra();
+  const { mutateAsync: completeSingleItemMutation } =
+    useCompletarPedidoDeOrden();
 
   const handleCompleteOrder = async (id: string) => {
     await mutateAsync(id);
+  };
+
+  const completeSingleItemOfOrderHandler = async (id: string) => {
+    await completeSingleItemMutation(id);
   };
 
   if (isPending) return <Loader />;
@@ -40,7 +47,12 @@ const Barra: FC<BarraProps> = ({}) => {
                   <div className="flex gap-5 items-center justify-between my-4">
                     <span>{pedido.cantidad}</span>
                     <span>{pedido.producto.nombre}</span>
-                    <span className="h-10 w-10 bg-white rounded-full cursor-pointer">
+                    <span
+                      className="h-10 w-10 bg-white rounded-full cursor-pointer"
+                      onClick={() =>
+                        completeSingleItemOfOrderHandler(pedido.id)
+                      }
+                    >
                       <FaCheckCircle
                         size={40}
                         className={pedido.preparado ? "block" : "hidden"}

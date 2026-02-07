@@ -1,5 +1,9 @@
 import { shadowPosApi } from "@/api/api";
-import type { CrearOrden, OrdenPorMesa } from "@/interfaces/orden.interface";
+import type {
+  CrearOrden,
+  OrdenPorMesa,
+  PedidoCompletadoResponse,
+} from "@/interfaces/orden.interface";
 
 const crearOrden = async (body: CrearOrden) => {
   const { data } = await shadowPosApi.post("/orden", body);
@@ -19,4 +23,19 @@ const completarOrden = async (id: string) => {
   return data;
 };
 
-export { crearOrden, obtenerOrdenPorMesa, completarOrden };
+const completarUnPedidoDeUnaOrden = async (
+  id: string,
+): Promise<PedidoCompletadoResponse> => {
+  const { data } = await shadowPosApi.patch<PedidoCompletadoResponse>(
+    `/orden/completar-un-pedido/${id}`,
+  );
+
+  return data;
+};
+
+export {
+  crearOrden,
+  obtenerOrdenPorMesa,
+  completarOrden,
+  completarUnPedidoDeUnaOrden,
+};
