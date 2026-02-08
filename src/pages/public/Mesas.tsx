@@ -10,6 +10,7 @@ import { socket } from "@/config/socket";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { Mesa, TodasLasMesas } from "@/interfaces/mesa.interface";
+import Notifications from "@/components/custom/Notifications";
 
 interface MesasProps {}
 const Mesas: FC<MesasProps> = ({}) => {
@@ -72,7 +73,7 @@ const Mesas: FC<MesasProps> = ({}) => {
           } else {
             return prevState;
           }
-        }
+        },
       );
     };
 
@@ -103,7 +104,9 @@ const Mesas: FC<MesasProps> = ({}) => {
       <h1 className="text-center my-5 font-bold text-4xl"> Mesas </h1>
 
       {profile?.rol.nombre == "mesero" && (
-        <div className="flex justify-end container px-10">
+        <div className="flex justify-end container px-10 gap-10">
+          <Notifications />
+
           <Button
             onClick={handleLogOut}
             disabled={isLogoutPending}

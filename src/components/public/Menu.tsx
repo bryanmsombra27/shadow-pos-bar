@@ -9,6 +9,7 @@ import useProfile from "@/hooks/auth/useProfile";
 import { MdDeleteForever } from "react-icons/md";
 import useObtenerProductos from "@/hooks/productos/useObtenerProductos";
 import useObtenerTodasLasCategorias from "@/hooks/categorias/useObtenerTodasLasCategorias";
+import { useParams } from "react-router";
 
 interface MenuProps {}
 const Menu: FC<MenuProps> = ({}) => {
@@ -18,11 +19,11 @@ const Menu: FC<MenuProps> = ({}) => {
     error: categoriasError,
     isPending: categoriasPending,
   } = useObtenerTodasLasCategorias();
-  const { mesa_id, setMesa } = useMesaStore();
   const { isPending: isOrderPending, mutateAsync } = useCrearOrden();
 
   const [productoEliminado, setProductoEliminado] = useState<string>("");
   const { pedidos, clearPerdidos, removePedido } = useMenuStore();
+  const { mesa_id = "" } = useParams();
 
   const {
     data: profileData,
@@ -41,11 +42,10 @@ const Menu: FC<MenuProps> = ({}) => {
           (category) => category == pedido.categoria,
         ),
       })),
-      mesa_id,
+      mesa_id: mesa_id ?? "",
     });
 
     clearPerdidos();
-    setMesa("");
   };
 
   if (profileIsPending || categoriasPending) return <Loader />;

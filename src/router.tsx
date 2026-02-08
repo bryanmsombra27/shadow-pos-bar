@@ -36,7 +36,7 @@ export const appRouter = createBrowserRouter([
     ],
   },
   {
-    path: "menu",
+    path: "menu/:mesa_id",
     element: (
       <ProductosPaginacionProvider>
         <Menu />

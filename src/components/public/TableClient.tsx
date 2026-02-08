@@ -3,9 +3,9 @@ import { type FC } from "react";
 import { PiPicnicTableBold } from "react-icons/pi";
 import { Button } from "../ui/button";
 import useActualizarEstadoMesa from "@/hooks/mesas/useActualizarEstadoMesa";
-import { useMesaStore } from "@/store/mesa";
 import { useNavigate } from "react-router";
 import useProfile from "@/hooks/auth/useProfile";
+import { useMenuStore } from "@/store/menu";
 
 // const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
 // const admin_id = "9b22e543-1787-404c-9925-099c2eb76de6";
@@ -15,8 +15,8 @@ interface TableClientProps {
 }
 const TableClient: FC<TableClientProps> = ({ mesa }) => {
   const { isPending, mutateAsync } = useActualizarEstadoMesa();
-  const { setMesa } = useMesaStore();
   const navigate = useNavigate();
+  const { clearPerdidos } = useMenuStore();
   const { data, error, isPending: isPendingProfile } = useProfile();
 
   const estadoMesa = (estado: string) => {
@@ -46,8 +46,6 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
   };
 
   const tomarMesa = async () => {
-    setMesa(mesa.id);
-
     await mutateAsync({
       id: mesa.id,
       body: {
@@ -57,11 +55,11 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
       },
     });
 
-    navigate("/menu");
+    navigate(`/menu/${mesa.id}`);
   };
 
   return (
-    <div className="flex flex-col p-6 border-2 gap-4 border-gray-400 w-50 rounded-xl mx-auto">
+    <div className="flex flex-col flex-wrap p-6 border-2 gap-4 border-gray-400  rounded-xl mx-auto w-50">
       <PiPicnicTableBold
         size={60}
         className="mx-auto"
@@ -69,8 +67,13 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
       <h4 className="text-xl font-bold ">{mesa.nombre} </h4>
       {mesa.mesero && (
         <>
-          <span>Te atiende: </span>
-          <p>{mesa.mesero?.nombre_completo}</p>
+          <span>mesa de: </span>
+          <p className="font-semibold text-xl">
+            {" "}
+            {mesa.mesero_id == data?.id
+              ? "Mia"
+              : mesa.mesero?.nombre_completo}{" "}
+          </p>
         </>
       )}
 
@@ -86,6 +89,18 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
             Tomar Mesa
           </Button>
         )}
+
+      {mesa.estado_actual == "OCUPADO" && (
+        <Button
+          className="mt-3"
+          onClick={() => {
+            clearPerdidos();
+            navigate(`/menu/${mesa.id}`);
+          }}
+        >
+          Pedir más
+        </Button>
+      )}
 
       {data &&
         data!.rol.nombre.toLowerCase() == "admin" &&
