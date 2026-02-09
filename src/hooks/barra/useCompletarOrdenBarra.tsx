@@ -24,7 +24,14 @@ const useCompletarOrdenBarra = () => {
                     }
                     return orden;
                   })
-                  .filter((orden) => orden.estado_orden == "PENDIENTE"),
+                  .filter(
+                    (orden) =>
+                      orden.estado_orden == "PENDIENTE" &&
+                      // VERIFICAR BIEN LA CONDICION
+                      orden.pedidos.every(
+                        (pedido) => pedido.preparado == false,
+                      ),
+                  ),
               } as BarraResponse)
             : state;
         },
