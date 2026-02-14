@@ -7,9 +7,6 @@ import { useNavigate } from "react-router";
 import useProfile from "@/hooks/auth/useProfile";
 import { useMenuStore } from "@/store/menu";
 
-// const mesero_id = "212069e5-105a-47d1-b347-64327949b52b";
-// const admin_id = "9b22e543-1787-404c-9925-099c2eb76de6";
-
 interface TableClientProps {
   mesa: Mesa;
 }
@@ -81,7 +78,7 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
 
       {!mesa.mesero &&
         mesa.estado_actual == "DISPONIBLE" &&
-        data!.rol.nombre.toLowerCase() == "mesero" && (
+        data?.rol.nombre.toLowerCase() == "mesero" && (
           <Button
             className="mt-3"
             onClick={tomarMesa}
@@ -107,7 +104,7 @@ const TableClient: FC<TableClientProps> = ({ mesa }) => {
         mesa.estado_actual == "OCUPADO" && (
           <Button
             className="mt-3"
-            onClick={() => navigate(`/admin/orden/${mesa.id}`)}
+            onClick={() => navigate(`/orden/${mesa.id}`)}
           >
             Ver Orden
           </Button>

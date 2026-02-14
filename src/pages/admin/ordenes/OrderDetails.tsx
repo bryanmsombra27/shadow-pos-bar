@@ -31,7 +31,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
     data && data.orden
       ? data.orden.pedidos.reduce(
           (acc, item) => acc + item.cantidad * item.precio,
-          0
+          0,
         )
       : 0;
 
@@ -75,7 +75,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
           <FaArrowAltCircleLeft
             size={40}
             className="mb-10 cursor-pointer"
-            onClick={() => navigate("/admin/ordenes")}
+            onClick={() => navigate("/ordenes")}
           />
 
           <DataTable

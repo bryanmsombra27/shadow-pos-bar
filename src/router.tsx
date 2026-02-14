@@ -14,37 +14,15 @@ import { CategoriasPaginacionProvider } from "./store/CategoriasPaginacion";
 import { UsuariosPaginacionProvider } from "./store/UsuariosPaginacion";
 import { ProductosPaginacionProvider } from "./store/ProductosPaginacion";
 import Login from "./pages/auth/Login";
-import RedirectionByRolWrapper from "./layout/RedirectionByRolWrapper";
+// import RedirectionByRolWrapper from "./layout/RedirectionByRolWrapper";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
 import Barra from "./pages/admin/barra/Barra";
 
 export const appRouter = createBrowserRouter([
   {
     path: "",
-    index: true,
 
-    // element: <MesasPublic />,
-    element: <RedirectionByRolWrapper />,
-  },
-  {
-    path: "auth",
-    children: [
-      {
-        path: "login",
-        element: <Login />,
-      },
-    ],
-  },
-  {
-    path: "menu/:mesa_id",
-    element: (
-      <ProductosPaginacionProvider>
-        <Menu />
-      </ProductosPaginacionProvider>
-    ),
-  },
-  {
-    path: "admin",
+    // element: <RedirectionByRolWrapper />,
     element: (
       <ProtectedRoutes>
         <AdminLayout />
@@ -107,6 +85,24 @@ export const appRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "auth",
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "menu/:mesa_id",
+    element: (
+      <ProductosPaginacionProvider>
+        <Menu />
+      </ProductosPaginacionProvider>
+    ),
+  },
+
   {
     path: "*",
     element: (
