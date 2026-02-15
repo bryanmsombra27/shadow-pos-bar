@@ -1,3 +1,4 @@
+import type { Mesa } from "./mesa.interface";
 import type { Producto } from "./producto.interface";
 
 export interface CrearOrden {
@@ -25,6 +26,7 @@ export interface Orden {
   total: null;
   mesero: Mesero;
   pedidos: Pedido[];
+  mesa?: Pick<Mesa, "id" | "nombre">;
 }
 
 interface Mesero {
@@ -35,6 +37,8 @@ export interface Pedido {
   cantidad: number;
   precio: number;
   producto: Pick<Producto, "id" | "nombre">;
+  preparado?: boolean;
+  entregado_a_mesa?: boolean;
 }
 interface PedidoCompletado {
   id: string;
@@ -50,4 +54,9 @@ interface PedidoCompletado {
 export interface PedidoCompletadoResponse {
   mensaje: string;
   pedido: PedidoCompletado;
+}
+
+export interface OrdenPorMeseroResponse {
+  mensaje: string;
+  ordenes: Orden[];
 }

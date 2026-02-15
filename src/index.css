@@ -121,4 +121,16 @@
   .btn {
     @apply bg-black text-white rounded-2xl py-3 px-2;
   }
+  label {
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+  }
+
+  input[type="checkbox"]:checked ~ label {
+    text-decoration: line-through;
+    color: rgb(147, 139, 139);
+  }
 }

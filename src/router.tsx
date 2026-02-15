@@ -17,6 +17,7 @@ import Login from "./pages/auth/Login";
 // import RedirectionByRolWrapper from "./layout/RedirectionByRolWrapper";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
 import Barra from "./pages/admin/barra/Barra";
+import Orders from "./pages/ordenes/Orders";
 
 export const appRouter = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "ordenes",
         element: <MesasPublic />,
+      },
+      {
+        path: "mis-ordenes",
+        element: <Orders />,
       },
       {
         path: "orden/:id",

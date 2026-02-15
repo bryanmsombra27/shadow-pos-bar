@@ -60,6 +60,11 @@ const menuItems = [
     url: "barra",
     icon: Settings,
   },
+  {
+    title: "Mis Ordenes",
+    url: "mis-ordenes",
+    icon: Settings,
+  },
 ];
 
 interface AppSideBarProps {}
