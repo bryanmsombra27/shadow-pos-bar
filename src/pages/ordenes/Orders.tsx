@@ -1,6 +1,8 @@
 import { Loader } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import useProfile from "@/hooks/auth/useProfile";
+import useEntregarOrden from "@/hooks/meseros/useEntregarOrden";
+import useEntregarUnPedidoMesa from "@/hooks/meseros/useEntregarUnPedidoMesa";
 import useObtenerOrdenesPorMesero from "@/hooks/ordenes/useObtenerOrdenesPorMesero";
 import type { FC } from "react";
 
@@ -15,6 +17,10 @@ const Orders: FC<OrdersProps> = ({}) => {
   const { data, error, isPending } = useObtenerOrdenesPorMesero(
     profileData?.id!,
   );
+  const { mutateAsync } = useEntregarUnPedidoMesa(profileData?.id!);
+  const { mutateAsync: entregarOrdenMutation } = useEntregarOrden(
+    profileData?.id!,
+  );
 
   if (profileIsPending || isPending) return <Loader />;
 
@@ -24,6 +30,13 @@ const Orders: FC<OrdersProps> = ({}) => {
         No fue posible obtener las ordenes del mesero
       </span>
     );
+
+  const handleSingleItemDelivery = async (id: string) => {
+    await mutateAsync(id);
+  };
+  const handleItemsDelivery = async (id: string) => {
+    await entregarOrdenMutation(id);
+  };
 
   return (
     <>
@@ -47,6 +60,7 @@ const Orders: FC<OrdersProps> = ({}) => {
                       name=""
                       id={pedido.producto.id}
                       defaultChecked={pedido.entregado_a_mesa}
+                      onClick={() => handleSingleItemDelivery(pedido.id)}
                     />
 
                     <label
@@ -62,7 +76,7 @@ const Orders: FC<OrdersProps> = ({}) => {
 
             <Button
               className="mt-3 mx-3"
-              onClick={() => {}}
+              onClick={() => handleItemsDelivery(orden.id)}
             >
               Entregar a Mesa
             </Button>

@@ -23,7 +23,7 @@ export interface Orden {
   mesero_id: string;
   mesa_id: string;
   estado_orden: string;
-  total: null;
+  total: null | string;
   mesero: Mesero;
   pedidos: Pedido[];
   mesa?: Pick<Mesa, "id" | "nombre">;
@@ -34,11 +34,13 @@ interface Mesero {
 }
 
 export interface Pedido {
+  id: string;
   cantidad: number;
   precio: number;
   producto: Pick<Producto, "id" | "nombre">;
   preparado?: boolean;
   entregado_a_mesa?: boolean;
+  orden_id?: string;
 }
 interface PedidoCompletado {
   id: string;
@@ -59,4 +61,14 @@ export interface PedidoCompletadoResponse {
 export interface OrdenPorMeseroResponse {
   mensaje: string;
   ordenes: Orden[];
+}
+
+export interface PedidoEntregadoResponse {
+  mensaje: string;
+  pedido: Pedido;
+}
+
+export interface OrdenEntregadaResponse {
+  mensaje: string;
+  orden: Orden;
 }

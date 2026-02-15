@@ -1,9 +1,11 @@
 import { shadowPosApi } from "@/api/api";
 import type {
   CrearOrden,
+  OrdenEntregadaResponse,
   OrdenPorMesa,
   OrdenPorMeseroResponse,
   PedidoCompletadoResponse,
+  PedidoEntregadoResponse,
 } from "@/interfaces/orden.interface";
 
 const crearOrden = async (body: CrearOrden) => {
@@ -43,10 +45,31 @@ const ObtenerOrdenesPorMesero = async (
   return data;
 };
 
+const completarUnaEntregaDeUnaOrden = async (
+  id: string,
+): Promise<PedidoEntregadoResponse> => {
+  const { data } = await shadowPosApi.patch<PedidoEntregadoResponse>(
+    `/orden/completar-una-entrega/${id}`,
+  );
+
+  return data;
+};
+const entregarUnaOrden = async (
+  id: string,
+): Promise<OrdenEntregadaResponse> => {
+  const { data } = await shadowPosApi.patch<OrdenEntregadaResponse>(
+    `/orden/entregada/${id}`,
+  );
+
+  return data;
+};
+
 export {
   crearOrden,
   obtenerOrdenPorMesa,
   completarOrden,
   completarUnPedidoDeUnaOrden,
   ObtenerOrdenesPorMesero,
+  completarUnaEntregaDeUnaOrden,
+  entregarUnaOrden,
 };
