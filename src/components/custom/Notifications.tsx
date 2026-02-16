@@ -40,7 +40,7 @@ const Notifications: FC<NotificationsProps> = ({}) => {
     const handleNotifications = async (notification: Notification) => {
       if (profileData && profileData?.id) {
         await queryClient.setQueryData(
-          ["notificaciones", profileData!.id ?? "koso"],
+          ["notificaciones", profileData!.id],
           (state: NotificationResponse) => {
             return notification
               ? ({
@@ -55,6 +55,7 @@ const Notifications: FC<NotificationsProps> = ({}) => {
     };
 
     if (socket) {
+      socket.emit("room", { user: profileData?.id });
       socket.on("notificaciones", handleNotifications);
     }
 

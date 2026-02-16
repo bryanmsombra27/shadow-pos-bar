@@ -2,7 +2,7 @@ import { obtenerNotificacionesPorUsuario } from "@/actions/notificaciones";
 import { useQuery } from "@tanstack/react-query";
 
 const useObtenerNotificacionesUsuario = (id: string) => {
-  const { data, error, isPending, refetch } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryFn: () => obtenerNotificacionesPorUsuario(id),
     queryKey: ["notificaciones", id],
     enabled: !!id,
@@ -12,7 +12,6 @@ const useObtenerNotificacionesUsuario = (id: string) => {
     data,
     error,
     isPending,
-    refetch,
   };
 };
 export default useObtenerNotificacionesUsuario;
