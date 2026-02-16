@@ -12,7 +12,6 @@ const useProfile = () => {
     queryFn: profile,
     queryKey: ["perfil"],
     enabled: !!token,
-    retry: false,
     // throwOnError(error: AppError, _) {
     //   console.log(error, "error use query");
     //   handleError(error);
