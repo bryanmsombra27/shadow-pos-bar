@@ -1,12 +1,15 @@
 import { shadowPosApi } from "@/api/api";
 import type {
   CrearOrden,
+  Orden,
   OrdenEntregadaResponse,
+  OrdenesResponse,
   OrdenPorMesa,
   OrdenPorMeseroResponse,
   PedidoCompletadoResponse,
   PedidoEntregadoResponse,
 } from "@/interfaces/orden.interface";
+import type { Pagination } from "@/interfaces/paginacion.interface";
 
 const crearOrden = async (body: CrearOrden) => {
   const { data } = await shadowPosApi.post("/orden", body);
@@ -64,6 +67,55 @@ const entregarUnaOrden = async (
   return data;
 };
 
+const obtenerTodasLasOrdenes = async (
+  pagination?: Pagination,
+): Promise<OrdenesResponse> => {
+  const searchParams = new URLSearchParams();
+
+  if (pagination?.page) {
+    searchParams.append("page", pagination.page.toString());
+  }
+  if (pagination?.search) {
+    searchParams.append("search", pagination.search);
+  }
+
+  const { data } = await shadowPosApi.get<OrdenesResponse>("/orden", {
+    params: searchParams,
+  });
+  return data;
+};
+const obtenerTodasLasOrdenesPreparadas = async (
+  pagination?: Pagination,
+): Promise<OrdenesResponse> => {
+  const searchParams = new URLSearchParams();
+
+  if (pagination?.page) {
+    searchParams.append("page", pagination.page.toString());
+  }
+  if (pagination?.search) {
+    searchParams.append("search", pagination.search);
+  }
+
+  const { data } = await shadowPosApi.get<OrdenesResponse>(
+    "/orden/preparadas",
+    {
+      params: searchParams,
+    },
+  );
+  return data;
+};
+
+const obtenerUnaOrdenPreparada = async (id: string): Promise<Orden> => {
+  const { data } = await shadowPosApi.get<Orden>(`orden/preparada/${id}`);
+  return data;
+};
+
+const obtenerOrden = async (id: string): Promise<Orden> => {
+  const { data } = await shadowPosApi.get<Orden>(`orden/${id}`);
+
+  return data;
+};
+
 export {
   crearOrden,
   obtenerOrdenPorMesa,
@@ -72,4 +124,8 @@ export {
   ObtenerOrdenesPorMesero,
   completarUnaEntregaDeUnaOrden,
   entregarUnaOrden,
+  obtenerTodasLasOrdenes,
+  obtenerTodasLasOrdenesPreparadas,
+  obtenerUnaOrdenPreparada,
+  obtenerOrden,
 };

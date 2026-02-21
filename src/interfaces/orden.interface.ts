@@ -27,6 +27,7 @@ export interface Orden {
   mesero: Mesero;
   pedidos: Pedido[];
   mesa?: Pick<Mesa, "id" | "nombre">;
+  fecha?: string;
 }
 
 interface Mesero {
@@ -71,4 +72,11 @@ export interface PedidoEntregadoResponse {
 export interface OrdenEntregadaResponse {
   mensaje: string;
   orden: Orden;
+}
+export interface OrdenesResponse {
+  mensaje: string;
+  ordenes: Orden[];
+  pagina: number;
+  total_paginas: number;
+  total_registros: number;
 }

@@ -75,7 +75,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({}) => {
           <FaArrowAltCircleLeft
             size={40}
             className="mb-10 cursor-pointer"
-            onClick={() => navigate("/ordenes")}
+            onClick={() => navigate("/pedidos")}
           />
 
           <DataTable

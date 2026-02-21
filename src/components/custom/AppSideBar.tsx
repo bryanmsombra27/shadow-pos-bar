@@ -35,13 +35,18 @@ const menuItems = [
     icon: PiPicnicTableBold,
   },
   {
+    title: "Ordenes",
+    url: "ordenes",
+    icon: PiPicnicTableBold,
+  },
+  {
     title: "Trabajadores",
     url: "trabajadores",
     icon: GiClockwork,
   },
   {
-    title: "Ordenes",
-    url: "ordenes",
+    title: "Pedidos",
+    url: "pedidos",
     icon: CheckSquare,
   },
 

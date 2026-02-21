@@ -78,7 +78,7 @@ const Notifications: FC<NotificationsProps> = ({}) => {
 
   const handleNotificationRedirect = async (id: string) => {
     await mutateAsync(id);
-    navigate("/mis-ordenes");
+    navigate("/mis-pedidos");
   };
 
   return (
